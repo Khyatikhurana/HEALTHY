@@ -1,5 +1,3 @@
-// script.js
-
 function togglePassword(elementId) {
     var passwordField = document.getElementById(elementId);
     if (passwordField.type === "password") {

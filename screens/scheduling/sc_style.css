@@ -1,0 +1,345 @@
+/* Body styles
+body {
+  font-family: "Roboto", sans-serif;
+  line-height: 1.6;
+  background-color: #f8f8f8;
+  color: #333;
+  margin: 0;
+}
+
+/* Header styles */
+/*
+header {
+  background-color: #0056b3;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+nav ul {
+  list-style: none;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+
+main {
+  position: relative;
+  left: 250px;
+  padding: 20px;
+}
+
+section {
+  margin-bottom: 30px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+section h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #0056b3;
+}
+
+
+form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+form label,
+form input {
+  display: block;
+  margin-bottom: 10px;
+}
+
+form input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+form button {
+  padding: 12px 24px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.provider-schedule {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.provider-schedule h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #333;
+}
+
+.provider-schedule p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 5px;
+}
+.provider-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.provider {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+
+.provider h3 {
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.provider p {
+  font-size: 14px;
+  color: #666;
+}
+
+.sidenav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 10%; 
+  background-color: #f1f1f1;
+  padding-top: 20px;
+}
+
+.sidenav nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidenav nav ul li {
+  margin-bottom: 10px;
+}
+
+.sidenav nav ul li a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+.sidenav nav ul li a:hover {
+  background-color: #ddd;
+}
+
+footer {
+  position: relative;
+  left: 250px;
+  padding: 20px;
+}
+
+li,
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sec-title {
+  position: relative;
+  padding-bottom: 40px;
+}
+.sec-title .title {
+  position: relative;
+  color: #00b8ca;
+  font-size: 18px;
+  font-weight: 700;
+  padding-right: 50px;
+  margin-bottom: 15px;
+  display: inline-block;
+  text-transform: capitalize;
+}
+.sec-title .title:before {
+  position: absolute;
+  content: "";
+  right: 0;
+  bottom: 7px;
+  width: 40px;
+  height: 1px;
+  background-color: #bbb;
+}
+.sec-title h2 {
+  position: relative;
+  color: #252525;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.5em;
+  display: block;
+}
+.sec-title.light h2 {
+  color: #fff;
+}
+.appointment-section {
+  position: relative;
+  padding: 110px 0 80px;
+}
+.appointment-section .form-column {
+  position: relative;
+  margin-bottom: 40px;
+}
+.default-form {
+  position: relative;
+}
+.default-form .form-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+.default-form .form-group i {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  color: #00b8ca;
+  font-size: 18px;
+}
+.default-form .form-group input[type="text"],
+.default-form .form-group input[type="tel"],
+.default-form .form-group input[type="email"],
+.default-form .form-group select {
+  position: relative;
+  display: block;
+  width: 100%;
+  line-height: 28px;
+  padding: 10px 20px;
+  color: #000;
+  height: 50px;
+  font-size: 13px;
+  background: #fff;
+  border: 1px solid #d7d7d7;
+  -webkit-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.default-form .form-group input[type="text"]:focus,
+.default-form .form-group input[type="tel"]:focus,
+.default-form .form-group input[type="email"]:focus,
+.default-form .form-group textarea:focus {
+  border-color: #00b8ca;
+}
+.default-form .form-group textarea {
+  position: relative;
+  display: block;
+  width: 100%;
+  line-height: 22px;
+  padding: 15px 20px;
+  color: #797979;
+  height: 120px;
+  background: #fff;
+  resize: none;
+  font-size: 14px;
+  border: 1px solid #d7d7d7;
+  -webkit-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.default-form .form-group .appointment-btn {
+  position: relative;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 11px 30px;
+  margin-top: 10px;
+  display: inline-block;
+  background-color: #00b8ca;
+  border: 1px solid #00b8ca;
+  text-transform: uppercase;
+  color: #fff;
+}
+.default-form .form-group .btn-detail {
+  position: relative;
+  color: #777;
+  font-size: 15px;
+  margin-left: 35px;
+  display: inline-block;
+}
+.appointment-section .schedule-column {
+  position: relative;
+}
+.appointment-section .schedule-column .inner-outer {
+  position: relative;
+  padding-left: 20px;
+  padding-bottom: 20px;
+}
+.appointment-section .schedule-column .inner-outer:before {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: 0;
+  width: 347px;
+  height: 268px;
+  background: url(https://i.ibb.co/gjZ1NFM/pattern-Appoinment.png) no-repeat;
+}
+.appointment-section .schedule-column .inner-column {
+  position: relative;
+  padding: 25px 30px;
+  border: 2px solid #00b8ca;
+  background-color: #fff;
+}
+.appointment-section .schedule-column h2 {
+  position: relative;
+  color: #252525;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.4em;
+  margin-bottom: 15px;
+}
+.appointment-section .schedule-column .time-list {
+  position: relative;
+}
+.appointment-section .schedule-column .time-list li {
+  position: relative;
+  color: #777;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+.appointment-section .schedule-column .time-list li:last-child {
+  margin-bottom: 0;
+}
+.appointment-section .schedule-column .time-list li strong {
+  color: #222;
+  font-weight: 700;
+}
+.appointment-section .schedule-column .time-list .closed {
+  position: relative;
+  color: #00b8ca;
+} */
