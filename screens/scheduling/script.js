@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Display the form data in the console (for testing purposes)
     console.log(appointment);
 
-    fetch("/schedule", {
+    fetch("/booking", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
