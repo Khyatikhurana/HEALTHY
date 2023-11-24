@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql": "^2.18.1"
+  },
+  "name": "health-and-wellness-appointment-scheduling-platform",
+  "description": "Healthcare providers and wellness services require an appointment scheduling platform that can handle the complexities of treatment schedules, provider availability, and patient reminders. .",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "shubhi",
+  "license": "ISC"
+}
