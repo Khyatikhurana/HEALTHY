@@ -158,6 +158,15 @@ a.sidebar-link{
 }
 } 
 
+@media(max-width: 767.98px){
+    .navbar,
+    footer{
+        width:100vw;
+    }
+}
+
+
+
 
 
 .theme-toggle {
