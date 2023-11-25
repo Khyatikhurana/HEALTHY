@@ -143,7 +143,8 @@ app.post("/booking", (req, res) => {
 // ----------  file upload page -------------
 app.get("/files", (req, res) => {
   console.log("Request received for file upload page");
-  res.status(200).send(uploadScreen);
+  const output = uploadScreen.replace("{%NAVBAR%}", navbar);
+  res.status(200).send(output);
 });
 
 // ---------- User profile page -------------
