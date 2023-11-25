@@ -77,7 +77,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.get("/", (req, res) => {
   console.log("Request received for landing page");
-  res.status(200).send("<h2>Welcome to our NodeJS server</h2>");
+  res.redirect("/authentication");
 });
 
 //------------- appointment page -------------
@@ -97,33 +97,37 @@ app.get("/dashboard", (req, res) => {
 
 // ---------- Authentication page -------------
 
-var username =""
-var uderid = ""
+// var username =""
+// var uderid = ""
 app.get("/authentication", (req, res) => {
   console.log("Request received for booking page");
   res.status(200).send(authScreen);
 });
 
-app.post("/booking", (req, res) => {
-  const requestPurpose = req.headers["request-purpose"];
+app.post('/signin', (req, res) => {
+  // const { uname, upswd } = req.body;
+  // const foundUser = users.find(user => user.username === uname && user.password === upswd);
+  console.log(req.body);
+  // if (foundUser) {
+  //   // If authentication is successful
+  res.status(200).json({ message: 'Authentication successful' });
+  // } else {
+  //   // If authentication fails
+  //   res.status(401).json({ error: 'Authentication failed' });
+  // }
+});
 
-  if (requestPurpose === "signin") {
-    // --------- sign in -------------
-    console.log("Sign-in request received");
-    console.log(req.body);
-    res.status(200).send("Received the sign-in request");
-    // TODO: check db
-    res.redirect("/dashboard");
-  } else if (requestPurpose === "signup") {
-    // Handle sign-up logic based on req.body
-    console.log("Sign-up request received");
-    console.log(req.body);
-    // TODO: add to db
-    res.status(200).send("Received the sign-up request");
-    res.redirect("/dashboard");
-  } else {
-    res.status(400).send("Invalid request purpose");
-  }
+app.post('/signup', (req, res) => {
+  // const { uname, upswd } = req.body;
+  // const foundUser = users.find(user => user.username === uname && user.password === upswd);
+  console.log(req.body);
+  // if (foundUser) {
+  //   // If authentication is successful
+  res.status(200).json({ message: 'Authentication successful' });
+  // } else {
+  //   // If authentication fails
+  //   res.status(401).json({ error: 'Authentication failed' });
+  // }
 });
 
 // ---------- Schedule page -------------
