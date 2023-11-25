@@ -1,3 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="./style.css"> -->
+
+
+
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
@@ -188,7 +202,8 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
     display: none;
 }
 </style>
-<!-- <aside id="sidebar" class="js-sidebar">
+</head>
+<aside id="sidebar" class="js-sidebar">
   <div class="h-100">
     <div class="sidebar-logo">
       <a href="#">Healthy</a>
@@ -204,25 +219,25 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
         </a>
       </li>
       <li class="sidebar-item">
-        <a id="/appointment" href="/appointment" class="sidebar-link collapsed" data-bs-target="#appointments" data-bs-toggle="collapse" aria-expanded="false">
+        <a id="appointment" href="/appointment" class="sidebar-link collapsed" data-bs-target="#appointments" data-bs-toggle="collapse" aria-expanded="false">
           <i class="fa-solid fa-file-lines pe-2"></i>
           Appointments
         </a>
         <ul id="appointments" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Upcoming</a>
+            <a href="/appointment" class="sidebar-link">Upcoming</a>
           </li>
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Record</a>
+            <a href="/appointment" class="sidebar-link">Record</a>
           </li>
         </ul>
       </li>
       <li class="sidebar-item">
-        <a id="/booking" href="/booking" class="sidebar-link collapsed" data-bs-target="#booking" data-bs-toggle="collapse" aria-expanded="false">
+        <a id="booking" href="/booking" class="sidebar-link">
           <i class="fa-solid fa-sliders pe-2"></i>
           Booking
         </a>
-        <ul id="booking" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+        <!-- <ul id="booking" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
           <li class="sidebar-item">
             <a href="#" class="sidebar-link">Post 1</a>
           </li>
@@ -232,43 +247,43 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
           <li class="sidebar-item">
             <a href="#" class="sidebar-link">Post 3</a>
           </li>
-        </ul>
+        </ul> -->
       </li>
       <li class="sidebar-item">
-        <a id="/files" href="/files" class="sidebar-link collapsed" data-bs-target="#upload" data-bs-toggle="collapse" aria-expanded="false">
+        <a id="files" href="/uploadFile" class="sidebar-link">
           <i class="fa-solid fa-cloud-arrow-up"></i>
-          Files
+          Upload Files
         </a>
-        <ul id="upload" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+        <!-- <ul id="upload" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Upload</a>
+            <a href="/uploadfile" class="sidebar-link">Upload</a>
           </li>
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Download</a>
+            <a href="/uploadfile" class="sidebar-link">Download</a>
           </li>
-        </ul>
+        </ul> -->
       </li>
       <li class="sidebar-item">
-        <a id="/user" href="/user" class="sidebar-link collapsed" data-bs-target="#user" data-bs-toggle="collapse" aria-expanded="false">
+        <a id="user" href="/user" class="sidebar-link collapsed" data-bs-target="#user" data-bs-toggle="collapse" aria-expanded="false">
           <i class="fa-regular fa-user pe-2"></i>
-          User
+          User Profile
         </a>
         <ul id="user" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Login</a>
+            <a href="/user" class="sidebar-link">Login</a>
           </li>
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Register</a>
+            <a href="/user" class="sidebar-link">Register</a>
           </li>
         </ul>
       </li>
     </ul>
   </div>
-</aside> -->
+</aside>
 
 
 
-<aside id="sidebar" class="js-sidebar">
+<!-- <aside id="sidebar" class="js-sidebar">
   <div class="h-100">
     <div class="sidebar-logo">
       <a href="/">Healthy</a>
@@ -294,4 +309,4 @@ html[data-bs-theme="light"] .theme-toggle .fa-sun {
       </li>
     </ul>
   </div>
-</aside>
+</aside> -->
