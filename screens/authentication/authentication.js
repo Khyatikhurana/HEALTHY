@@ -24,16 +24,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   buttonSignIn.addEventListener("click", function (event) {
     event.preventDefault(); // Prevent the default form submission or button behavior
-    var username = document.getElementById("signInUsername").value;
+    var userid = document.getElementById("signInUsername").value; //TODO: change to userID stuff
     var password = document.getElementById("signInPassword").value;
 
-    if (username === "" || password === "") {
+    if (userid === "" || password === "") {
       alert("Please fill in all required fields for Sign In.");
       return false;
     }
 
     var user = {
-      username: username,
+      userid: userid,
       userpswd: password,
     };
 

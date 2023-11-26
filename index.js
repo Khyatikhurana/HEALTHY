@@ -78,47 +78,25 @@ const authScreen = `${authentication}\n<script>${authenticationJS}</script>`;
 
 // ------------------------------ routing ---------------------------------
 
-//  TODO: redirect to / if not signed in !!
+var activeUserId = "";
+
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "images")));
 
-// --------- Serve landing page-------------
+// --------- Serve landing page - Authentication page -------------
 
 app.get("/", (req, res) => {
-  console.log("Request received for landing page");
-  res.redirect("/authentication");
-});
-
-//------------- appointment page -------------
-
-app.get("/appointment", (req, res) => {
-  console.log("Request received for appointment page");
-  res.status(200).send("<h2>Appointment page</h2>");
-});
-// ------------- Dashboard page -------------
-
-app.get("/dashboard", (req, res) => {
-  console.log("Request received for dashboard page");
-  const output = dashboardScreen.replace("{%NAVBAR%}", navbar);
-  res.status(200).send(output);
-  // console.log(output);
-});
-
-// ---------- Authentication page -------------
-
-// var username =""
-// var uderid = ""
-app.get("/authentication", (req, res) => {
-  console.log("Request received for booking page");
+  console.log("Request received for authentication page");
   res.status(200).send(authScreen);
 });
 
 app.post("/signin", (req, res) => {
-  // const { uname, upswd } = req.body;
+  const { username, userpswd } = req.body;
   // const foundUser = users.find(user => user.username === uname && user.password === upswd);
-  console.log(req.body);
-  // if (foundUser) {
-  //   // If authentication is successful
+  // console.log(username);
+  // console.log(userpswd);
+  activeUserId = username;
+
   res.status(200).json({ message: "Authentication successful" });
   // } else {
   //   // If authentication fails
@@ -127,21 +105,43 @@ app.post("/signin", (req, res) => {
 });
 
 app.post("/signup", (req, res) => {
-  // const { uname, upswd } = req.body;
-  // const foundUser = users.find(user => user.username === uname && user.password === upswd);
+  activeUserName = "999" // TODO: get userid from db
   console.log(req.body);
-  // if (foundUser) {
-  //   // If authentication is successful
   res.status(200).json({ message: "Authentication successful" });
-  // } else {
-  //   // If authentication fails
-  //   res.status(401).json({ error: 'Authentication failed' });
-  // }
+
+});
+
+// ------------- Dashboard page -------------
+
+app.get("/dashboard", (req, res) => {
+   // if not signed in redirect to landing page
+   if (activeUserId === "") {
+    res.redirect("/");
+  }
+  console.log("Request received for dashboard page");
+  const output = dashboardScreen.replace("{%NAVBAR%}", navbar);
+  res.status(200).send(output);
+  // console.log(output);
+});
+
+//------------- appointment page -------------
+
+app.get("/appointment", (req, res) => {
+  // if not signed in redirect to landing page
+  if (activeUserId === "") {
+   res.redirect("/");
+ }
+ console.log("Request received for appointment page");
+ res.status(200).send("<h2>Appointment page</h2>");
 });
 
 // ---------- Schedule page -------------
 
 app.get("/booking", (req, res) => {
+  // if not signed in redirect to landing page
+  if (activeUserId === "") {
+    res.redirect("/");
+  }
   console.log("Request received for booking page");
   const output = scheduleScreen.replace("{%NAVBAR%}", navbar);
   res.status(200).send(output);
@@ -157,6 +157,10 @@ app.post("/booking", (req, res) => {
 
 // ----------  file upload page -------------
 app.get("/files", (req, res) => {
+   // if not signed in redirect to landing page
+   if (activeUserId === "") {
+    res.redirect("/");
+  }
   console.log("Request received for file upload page");
   const output = uploadScreen.replace("{%NAVBAR%}", navbar);
   res.status(200).send(output);
@@ -164,6 +168,10 @@ app.get("/files", (req, res) => {
 
 // ---------- User profile page -------------
 app.get("/user", (req, res) => {
+   // if not signed in redirect to landing page
+   if (activeUserId === "") {
+    res.redirect("/");
+  }
   console.log("Request received for user profile page");
   res.status(200).send("<h2>User page</h2>");
 });
