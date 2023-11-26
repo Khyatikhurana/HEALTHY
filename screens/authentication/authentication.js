@@ -21,15 +21,20 @@ function validateSignUpForm() {
 
 document.addEventListener("DOMContentLoaded", function () {
   var buttonSignIn = document.getElementById("signin");
- 
+
   buttonSignIn.addEventListener("click", function (event) {
     event.preventDefault(); // Prevent the default form submission or button behavior
     var username = document.getElementById("signInUsername").value;
     var password = document.getElementById("signInPassword").value;
 
+    if (username === "" || password === "") {
+      alert("Please fill in all required fields for Sign In.");
+      return false;
+    }
+
     var user = {
-      uname: username,
-      upswd: password,
+      username: username,
+      userpswd: password,
     };
 
     fetch("/signin", {
@@ -49,6 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         // Process the response data as needed
         console.log("Signed in successfully:", data);
+        window.history.replaceState(null, "", "/dashboard");
         window.location.href = "/dashboard";
         // Show success message or perform other actions based on the response
       })
@@ -68,6 +74,30 @@ document.addEventListener("DOMContentLoaded", function () {
     var email = document.getElementById("email").value;
     var phoneNumber = document.getElementById("phoneNumber").value;
     var password = document.getElementById("signUpPassword").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (
+      firstName === "" ||
+      lastName === "" ||
+      email === "" ||
+      phoneNumber === "" ||
+      signUpPassword === "" ||
+      confirmPassword === ""
+    ) {
+      alert("Please fill in all required fields for Sign Up.");
+      return false;
+    }
+
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Invalid email format.");
+      return false;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Password and Confirm Password do not match.");
+      return false;
+    }
 
     var newuser = {
       fname: firstName,
@@ -94,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         // Process the response data as needed
         console.log("Signed Up successfully:", data);
+        window.history.replaceState(null, "", "/dashboard");
         window.location.href = "/dashboard";
         // Show success message or perform other actions based on the response
       })

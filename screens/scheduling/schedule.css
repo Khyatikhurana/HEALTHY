@@ -1,55 +1,210 @@
-/* Body styles
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+*,
+::after,
+::before {
+    box-sizing: border-box;
+}
+
 body {
-  font-family: "Roboto", sans-serif;
-  line-height: 1.6;
-  background-color: #f8f8f8;
-  color: #333;
-  margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.875rem;
+    opacity: 1;
+    overflow-y: scroll;
+    margin: 0;
 }
 
-/* Header styles */
-/*
-header {
-  background-color: #0056b3;
-  color: white;
-  padding: 20px;
-  text-align: center;
+a {
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
 }
 
-header h1 {
-  margin-bottom: 10px;
-  font-size: 28px;
+li {
+    list-style: none;
 }
 
-nav ul {
-  list-style: none;
+h4 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.275rem;
+    color: var(--bs-emphasis-color);
 }
 
-nav ul li {
-  display: inline;
-  margin-right: 20px;
+/* Layout for admin dashboard skeleton */
+.wrapper{
+    align-items: stretch;
+    display: flex;
+    width:100%;
+
 }
 
-nav ul li a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 18px;
+#sidebar {
+    max-width: 264px;
+    min-width: 264px;
+    background: var(--bs-dark);
+    transition: all 0.35s ease-in-out;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-width: 0;
+    overflow: hidden;
+    transition: all 0.35s ease-in-out;
+    width: 100%;
+    background: var(--bs-dark-bg-subtle);
+    align-items: center;
+    justify-content: center;
+}
+
+/* Sidebar Elements Style */
+.sidebar-logo{
+    padding:1.15rem;
+}
+.sidebar-logo a{
+    color:#e9ecef;
+    font-size:1.15rem;
+    font-weight:600;
+
+}
+.sidebar-nav{
+    flex-grow: 1;
+    list-style: none;
+    margin-bottom:0;
+    padding-left:0;
+    margin-left:0;
+
+}
+
+.sidebar-header{
+    color:#e9ecef;
+    font-size:.75rem;
+    padding: 1.5rem 1.5rem .375rem;
+}
+
+a.sidebar-link{
+    padding: .625rem 1.625rem;
+    color:#e9ecef;
+    position:relative;
+    display:block;
+    font-size: 0.875rem;
+
+}
+
+.sidebar-link[data-bs-toggle="collapse"]::after{
+    border:solid;
+    border-width: 0 .075rem .075rem 0;
+    content: "";
+    display:inline-block;
+    padding:2px;
+    position:absolute;
+    right: 1.5rem;
+    top:1.4rem;
+    transform: rotate(-135deg);
+    transition: all .2s ease-out;
+
+}
+
+.sidebar-link[data-bs-toggle="collapse"].collapsed::after{
+    transform: rotate(45deg);
+    transition: all .2s ease-out;
+
+}
+
+.avatar{
+    height: 40px;
+    width: 40px;
+}
+
+.navbar-expand .navbar-nav{
+    margin-left: auto;
+}
+
+.content{
+    flex:1;
+    max-width:100vw;
+    width: 100vw;
+}
+
+@media(min-width:768px){
+    .content{
+        max-width: auto;
+        width:auto;
+    }
+}
+
+.card{
+    box-shadow: 0 0.875rem 0 rgba(34, 46, 60, 0.05);
+    margin-bottom: 24px;
+}
+
+.illustration{
+    background-color: var(--bs-primary-bg-subtle);
+    color:var(--bs-emphasis-color)
+}
+
+.illustration-img{
+    max-width: 150px;
+    width:100%;
+}
+
+@media (max-width:767.98px) {
+    
+.js-sidebar {
+        margin-left: -264px;
+}
+
+#sidebar.collapsed {
+        margin-left: 0;
+}
+} 
+
+@media(max-width: 767.98px){
+    .navbar,
+    footer{
+        width:100vw;
+    }
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-65%);
+    text-align: center;
+    z-index: 10;
+    right: 0;
+    left: auto;
+    border: none;
+    background-color: var(--bs-body-color);
+}
+
+html[data-bs-theme="dark"] .theme-toggle .fa-sun,
+html[data-bs-theme="light"] .theme-toggle .fa-moon {
+    cursor: pointer;
+    padding: 10px;
+    display: block;
+    font-size: 1.25rem;
+    color: #FFF;
+}
+
+html[data-bs-theme="dark"] .theme-toggle .fa-moon {
+    display: none;
+}
+
+html[data-bs-theme="light"] .theme-toggle .fa-sun {
+    display: none;
 }
 
 
-main {
-  position: relative;
-  left: 250px;
-  padding: 20px;
-}
-
+/*  */
 section {
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
+  max-width: 80%;
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 
 section h2 {
@@ -58,7 +213,7 @@ section h2 {
   color: #0056b3;
 }
 
-
+/* Form styles */
 form {
   max-width: 400px;
   margin: 0 auto;
@@ -68,6 +223,7 @@ form label,
 form input {
   display: block;
   margin-bottom: 10px;
+  color: #000;
 }
 
 form input[type="text"] {
@@ -76,6 +232,7 @@ form input[type="text"] {
   font-size: 16px;
   border-radius: 4px;
   border: 1px solid #ccc;
+  background-color: #ccc;
 }
 
 form button {
@@ -86,84 +243,6 @@ form button {
   cursor: pointer;
   border-radius: 4px;
   font-size: 16px;
-}
-
-.provider-schedule {
-  background-color: #f9f9f9;
-  padding: 15px;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.provider-schedule h3 {
-  margin-bottom: 10px;
-  font-size: 20px;
-  color: #333;
-}
-
-.provider-schedule p {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 5px;
-}
-.provider-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.provider {
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 8px;
-}
-
-
-.provider h3 {
-  margin-bottom: 5px;
-  font-size: 18px;
-}
-
-.provider p {
-  font-size: 14px;
-  color: #666;
-}
-
-.sidenav {
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 10%; 
-  background-color: #f1f1f1;
-  padding-top: 20px;
-}
-
-.sidenav nav ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.sidenav nav ul li {
-  margin-bottom: 10px;
-}
-
-.sidenav nav ul li a {
-  display: block;
-  padding: 10px;
-  text-decoration: none;
-  color: #333;
-}
-
-.sidenav nav ul li a:hover {
-  background-color: #ddd;
-}
-
-footer {
-  position: relative;
-  left: 250px;
-  padding: 20px;
 }
 
 li,
@@ -307,7 +386,8 @@ ul {
   bottom: 0;
   width: 347px;
   height: 268px;
-  background: url(https://i.ibb.co/gjZ1NFM/pattern-Appoinment.png) no-repeat;
+  background: url(https://i.ibb.co/gjZ1NFM/pattern-Appoinment.png)
+    no-repeat;
 }
 .appointment-section .schedule-column .inner-column {
   position: relative;
@@ -342,4 +422,4 @@ ul {
 .appointment-section .schedule-column .time-list .closed {
   position: relative;
   color: #00b8ca;
-} */
+}

@@ -20,48 +20,56 @@ const navbar = `${navbarHTML}\n<script>${navbarJS}</script>`;
 
 // upload screen
 const uploadFile = fs.readFileSync(
-  path.join(__dirname, "screens", "uploadFile", "index.html"),
+  path.join(__dirname, "screens", "uploadFile", "uploadFile.html"),
   "utf-8"
 );
 const uploadFileJs = fs.readFileSync(
-  path.join(__dirname, "screens", "uploadFile", "script.js"),
+  path.join(__dirname, "screens", "uploadFile", "uploadfile.js"),
   "utf-8"
 );
-const uploadScreen = `${uploadFile}\n<script>${uploadFileJs}</script>`;
+const uploadFileCSS = fs.readFileSync(
+  path.join(__dirname, "screens", "uploadFile", "uploadFile.css"),
+  "utf-8"
+);
+const uploadScreen = `${uploadFile}\n<script>${uploadFileJs}</script><style>${uploadFileCSS}</style>`;
 
 // dashboard screen
 const dashboard = fs.readFileSync(
-  path.join(__dirname, "screens", "Dashboard", "index.html"),
+  path.join(__dirname, "screens", "Dashboard", "dashboard.html"),
   "utf-8"
 );
 const dashboardJS = fs.readFileSync(
-  path.join(__dirname, "screens", "Dashboard", "script.js"),
+  path.join(__dirname, "screens", "Dashboard", "dashboard.js"),
   "utf-8"
 );
 const dashboardCSS = fs.readFileSync(
-  path.join(__dirname, "screens", "Dashboard", "style.css"),
+  path.join(__dirname, "screens", "Dashboard", "dashboard.css"),
   "utf-8"
 );
 const dashboardScreen = `${dashboard}\n<script>${dashboardJS}</script><style>${dashboardCSS}</style>`;
 
 // booking screen
 const schedule = fs.readFileSync(
-  path.join(__dirname, "screens", "scheduling", "scheduling.html"),
+  path.join(__dirname, "screens", "scheduling", "schedule.html"),
   "utf-8"
 );
 const scheduleJS = fs.readFileSync(
-  path.join(__dirname, "screens", "scheduling", "script.js"),
+  path.join(__dirname, "screens", "scheduling", "schedule.js"),
   "utf-8"
 );
-const scheduleScreen = `${schedule}\n<script>${scheduleJS}</script>`;
+const scheduleCSS = fs.readFileSync(
+  path.join(__dirname, "screens", "scheduling", "schedule.css"),
+  "utf-8"
+);
+const scheduleScreen = `${schedule}\n<script>${scheduleJS}</script><style>${scheduleCSS}</style>`;
 
 // authentication screen
 const authentication = fs.readFileSync(
-  path.join(__dirname, "screens", "authentication", "signUp.html"),
+  path.join(__dirname, "screens", "authentication", "authentication.html"),
   "utf-8"
 );
 const authenticationJS = fs.readFileSync(
-  path.join(__dirname, "screens", "authentication", "signUp.js"),
+  path.join(__dirname, "screens", "authentication", "authentication.js"),
   "utf-8"
 );
 const authScreen = `${authentication}\n<script>${authenticationJS}</script>`;
@@ -70,6 +78,7 @@ const authScreen = `${authentication}\n<script>${authenticationJS}</script>`;
 
 // ------------------------------ routing ---------------------------------
 
+//  TODO: redirect to / if not signed in !!
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "images")));
 
@@ -141,7 +150,7 @@ app.get("/booking", (req, res) => {
 app.post("/booking", (req, res) => {
   console.log("new request :)");
   console.log(req.body);
-  const output =  scheduleScreen.replace("{%NAVBAR%}", navbar);
+  const output = scheduleScreen.replace("{%NAVBAR%}", navbar);
   // Handle POST data as needed
   res.status(200).send(output);
 });
