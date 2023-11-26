@@ -8,13 +8,7 @@
       box-sizing: border-box;
   }
   
-  body {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.875rem;
-      opacity: 1;
-      overflow-y: scroll;
-      margin: 0;
-  }
+ 
   
   a {
       cursor: pointer;
@@ -33,12 +27,7 @@
   }
   
   /* Layout for admin dashboard skeleton */
-  .wrapper{
-      align-items: stretch;
-      display: flex;
-      width:100%;
-  
-  }
+ 
   
   #sidebar {
       max-width: 264px;
@@ -209,9 +198,9 @@
       <a href="#">Healthy</a>
     </div>
     <ul class="sidebar-nav">
-      <li class="sidebar-header">
+      <!-- <li class="sidebar-header">
         Admin Elements
-      </li>
+      </li> -->
       <li class="sidebar-item">
         <a href="#" class="sidebar-link">
           <i class="fa-solid fa-list"></i>
@@ -219,18 +208,18 @@
         </a>
       </li>
       <li class="sidebar-item">
-        <a id="appointment" href="/appointment" class="sidebar-link collapsed" data-bs-target="#appointments" data-bs-toggle="collapse" aria-expanded="false">
+        <a id="appointment" href="/appointment" class="sidebar-link">
           <i class="fa-solid fa-file-lines pe-2"></i>
           Appointments
         </a>
-        <ul id="appointments" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+        <!-- <ul id="appointments" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
           <li class="sidebar-item">
             <a href="/appointment" class="sidebar-link">Upcoming</a>
           </li>
           <li class="sidebar-item">
             <a href="/appointment" class="sidebar-link">Record</a>
           </li>
-        </ul>
+        </ul> -->
       </li>
       <li class="sidebar-item">
         <a id="booking" href="/booking" class="sidebar-link">
@@ -264,18 +253,18 @@
         </ul> -->
       </li>
       <li class="sidebar-item">
-        <a id="user" href="/user" class="sidebar-link collapsed" data-bs-target="#userCollapse" data-bs-toggle="collapse" aria-expanded="false">
+        <a id="user" href="/user" class="sidebar-link">
           <i class="fa-regular fa-user pe-2"></i>
           User Profile
         </a>
-        <ul id="userCollapse" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+        <!-- <ul id="userCollapse" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
           <li class="sidebar-item">
             <a href="/user" class="sidebar-link">Login</a>
           </li>
           <li class="sidebar-item">
             <a href="/user" class="sidebar-link">Register</a>
           </li>
-        </ul>
+        </ul> -->
       </li>
     </ul>
   </div>
