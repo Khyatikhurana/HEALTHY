@@ -7,109 +7,99 @@ function togglePassword(elementId) {
   }
 }
 
-function validateSignInForm() {
-  var username = document.getElementById("signInUsername").value;
-  var password = document.getElementById("signInPassword").value;
-
-  if (username === "" || password === "") {
-    alert("Username and password are required for sign in.");
-    return false;
-  }
-
-  var user = {
-    uname: username,
-    upswd: password,
-  };
-
-  fetch("/authentication", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "request-purpose": "login",
-    },
-    body: JSON.stringify(user),
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error("Network response was not ok.");
-    })
-    .then((data) => {
-      // Process the response data as needed
-      console.log("Appointment scheduled successfully:", data);
-      // Show success message or perform other actions based on the response
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      // Handle errors or show error messages to the user
-    });
-}
-
 function validateSignUpForm() {
-  var firstName = document.getElementById("firstName").value;
-  var lastName = document.getElementById("lastName").value;
-  var email = document.getElementById("email").value;
-  var phoneNumber = document.getElementById("phoneNumber").value;
-  var about = document.getElementById("about").value;
   var password = document.getElementById("signUpPassword").value;
   var confirmPassword = document.getElementById("confirmPassword").value;
-
-  if (
-    firstName === "" ||
-    lastName === "" ||
-    email === "" ||
-    phoneNumber === "" ||
-    about === "" ||
-    password === "" ||
-    confirmPassword === ""
-  ) {
-    alert("All fields are required for sign up.");
-    return false;
-  }
 
   if (password !== confirmPassword) {
     alert("Password and Confirm Password do not match.");
     return false;
   }
 
-  // Basic email format validation
-  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    alert("Invalid email format.");
-    return false;
-  }
-
-  var newuser = {
-    fname: firstName,
-    lname: lastName,
-    email: email,
-    phone: phoneNumber,
-    about: about,
-    pswd: password,
-  };
-
-  fetch("/authentication", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "request-purpose": "signup",
-    },
-    body: JSON.stringify(newuser),
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error("Network response was not ok.");
-    })
-    .then((data) => {
-      // Process the response data as needed
-      console.log("Appointment scheduled successfully:", data);
-      // Show success message or perform other actions based on the response
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      // Handle errors or show error messages to the user
-  });
+  return true;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  var buttonSignIn = document.getElementById("signin");
+ 
+  buttonSignIn.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the default form submission or button behavior
+    var username = document.getElementById("signInUsername").value;
+    var password = document.getElementById("signInPassword").value;
+
+    var user = {
+      uname: username,
+      upswd: password,
+    };
+
+    fetch("/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => {
+        if (response.ok) {
+          ("Response is ok");
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then((data) => {
+        // Process the response data as needed
+        console.log("Signed in successfully:", data);
+        window.location.href = "/dashboard";
+        // Show success message or perform other actions based on the response
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle errors or show error messages to the user
+      });
+  });
+
+  var buttonSignUp = document.getElementById("signup");
+  buttonSignUp.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the default form submission or button behavior
+    validateSignUpForm();
+
+    var firstName = document.getElementById("firstName").value;
+    var lastName = document.getElementById("lastName").value;
+    var email = document.getElementById("email").value;
+    var phoneNumber = document.getElementById("phoneNumber").value;
+    var password = document.getElementById("signUpPassword").value;
+
+    var newuser = {
+      fname: firstName,
+      lname: lastName,
+      email: email,
+      phone: phoneNumber,
+      pswd: password,
+    };
+
+    fetch("/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newuser),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("Response is ok");
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then((data) => {
+        // Process the response data as needed
+        console.log("Signed Up successfully:", data);
+        window.location.href = "/dashboard";
+        // Show success message or perform other actions based on the response
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle errors or show error messages to the user
+      });
+  });
+});
