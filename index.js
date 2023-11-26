@@ -104,26 +104,26 @@ app.get("/authentication", (req, res) => {
   res.status(200).send(authScreen);
 });
 
-app.post('/signin', (req, res) => {
+app.post("/signin", (req, res) => {
   // const { uname, upswd } = req.body;
   // const foundUser = users.find(user => user.username === uname && user.password === upswd);
   console.log(req.body);
   // if (foundUser) {
   //   // If authentication is successful
-  res.status(200).json({ message: 'Authentication successful' });
+  res.status(200).json({ message: "Authentication successful" });
   // } else {
   //   // If authentication fails
   //   res.status(401).json({ error: 'Authentication failed' });
   // }
 });
 
-app.post('/signup', (req, res) => {
+app.post("/signup", (req, res) => {
   // const { uname, upswd } = req.body;
   // const foundUser = users.find(user => user.username === uname && user.password === upswd);
   console.log(req.body);
   // if (foundUser) {
   //   // If authentication is successful
-  res.status(200).json({ message: 'Authentication successful' });
+  res.status(200).json({ message: "Authentication successful" });
   // } else {
   //   // If authentication fails
   //   res.status(401).json({ error: 'Authentication failed' });
@@ -134,7 +134,8 @@ app.post('/signup', (req, res) => {
 
 app.get("/booking", (req, res) => {
   console.log("Request received for booking page");
-  res.status(200).send(scheduleScreen);
+  const output = scheduleScreen.replace("{%NAVBAR%}", navbar);
+  res.status(200).send(output);
 });
 
 app.post("/booking", (req, res) => {
