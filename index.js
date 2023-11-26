@@ -140,7 +140,7 @@ app.get("/booking", (req, res) => {
 app.post("/booking", (req, res) => {
   console.log("new request :)");
   console.log(req.body);
-  const output = uploadScreen.replace("{%NAVBAR%}", navbar);
+  const output =  scheduleScreen.replace("{%NAVBAR%}", navbar);
   // Handle POST data as needed
   res.status(200).send(output);
 });

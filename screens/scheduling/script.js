@@ -46,11 +46,11 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
-// Sidebar toggle
-const sidebarToggle=document.querySelector("#sidebar-toggle");
-sidebarToggle.addEventListener("click",function(){
-    document.querySelector("#sidebar").classList.toggle("collapsed");
-});
+// // Sidebar toggle
+// const sidebarToggle=document.querySelector("#sidebar-toggle");
+// sidebarToggle.addEventListener("click",function(){
+//     document.querySelector("#sidebar").classList.toggle("collapsed");
+// });
 
 
 // theme toggle

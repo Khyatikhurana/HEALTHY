@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark>
+<html lang="en" data-bs-theme="dark">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Healthcare Appointment Scheduling</title>
     <link
@@ -12,7 +13,7 @@
     <!-- <link rel="stylesheet" href="sc_style.css"> -->
   </head>
   <body>
-    {%NAVBAR%}
+    
     <!-- <header class="sidenav">
       <h1>Healthcare Appointment Scheduling Platform</h1>
       <nav>
@@ -29,13 +30,21 @@
     <main>
       <style>
         /* Body styles */
-        body {
+        /* body {
           font-family: "Roboto", sans-serif;
           line-height: 1.6;
           background-color: #f8f8f8;
           color: #333;
           margin: 0;
-        }
+        } */
+        body {
+          font-family: 'Poppins', sans-serif;
+          font-size: 0.875rem;
+          opacity: 1;
+          overflow-y: scroll;
+          margin: 0;
+          background-color: #f8f8f8;
+      }
 
         /* Header styles */
         header {
@@ -71,6 +80,7 @@
           position: relative;
           left: 250px;
           padding: 20px;
+          background: var(--bs-dark-bg-subtle);
         }
 
         section {
@@ -405,6 +415,7 @@
 
       
       </style>
+
       <section id="appointments">
         <h2>Book an Appointment</h2>
         <form>
@@ -459,6 +470,7 @@
         </form>
         <!-- Form for booking appointments -->
       </section>
+     
 
       <section id="providers">
         <h2>Providers</h2>
@@ -482,13 +494,15 @@
         </div>
         <!-- Display provider information -->
       </section>
-       <!-- ========= light and dark mode toggle button ======= -->
+         <!-- ========= light and dark mode toggle button ======= -->
 
-       <a href="#" class="theme-toggle">
-        <i class="fa-regular fa-moon"></i>
-        <i class="fa-regular fa-sun"></i>
-    </a>
+         <a href="#" class="theme-toggle">
+          <i class="fa-regular fa-moon"></i>
+          <i class="fa-regular fa-sun"></i>
+      </a>
+ 
     </main>
+        
 
     <footer>
       <p>&copy; 2023 Healthcare Appointment Scheduling Platform</p>
