@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="userprofile.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        {%NAVBAR%}
+        <div class="row bg-grey d-flex justify-content-center">
+            <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                    <img class="rounded-circle mt-5" width="150px" src="../../images/profile.jpg">
+                    <span class="font-weight-bold">User ID:<input type="text" class="form-control1" id="userId" value="{{ user.id }}" readonly></span><span class="text-black-50">
+                        <input type="email" class="form-control1" id="email" value="{{ user.email }}" readonly>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-5 border-right">
+                <div class="p-3 py-5">
+                    <!-- Existing user details -->
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" value="{{ user.firstName }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" value="{{ user.lastName }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phoneNumber" value="{{ user.phoneNumber }}" readonly>
+                        <button class="btn btn-primary mt-2" onclick="changePhoneNumber()">Change Phone Number</button>
+                    </div>
+
+                    <!-- Change Password Section -->
+                    <h6 class="mb-3" id="changePasswordHeading">
+                        Change Password
+                        <span class="arrow" onclick="togglePasswordSection()">▼</span>
+                    </h6>
+                    <div class="password-section" style="display: none;">
+                        <div class="mb-3">
+                            <label for="oldPassword" class="form-label">Old Password</label>
+                            <div class="password-container">
+                                <table width="100%">
+                                    <tr>
+                                        <td><input type="password" class="form-control" id="oldPassword" required></td>
+                                        <td><button type="button" class="toggle-password" onclick="togglePassword('oldPassword')">👁️</button></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <div class="password-container">
+                                <table width="100%">
+                                    <tr>
+                                        <td><input type="password" class="form-control" id="newPassword" required></td>
+                                        <td><button type="button" class="toggle-password" onclick="togglePassword('newPassword')">👁️</button></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmNewPassword" class="form-label">Confirm New Password</label>
+                            <div class="password-container">
+                                <table width="100%">
+                                    <tr>
+                                        <td><input type="password" class="form-control" id="confirmNewPassword" required></td>
+                                        <td><button type="button" class="toggle-password" onclick="togglePassword('confirmNewPassword')">👁️</button></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary profile-button" type="button" onclick="changePassword()">Change Password</button>
+                        <div class="mt-3" id="changePasswordMessage"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordSection() {
+            var passwordSection = document.querySelector('.password-section');
+            var arrow = document.querySelector('.arrow');
+
+            if (passwordSection.style.display === 'none') {
+                passwordSection.style.display = 'block';
+                arrow.textContent = '▲';
+            } else {
+                passwordSection.style.display = 'none';
+                arrow.textContent = '▼';
+            }
+        }
+
+        function togglePassword(passwordField) {
+            var passwordInput = document.getElementById(passwordField);
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+
+        function changePassword() {
+            var oldPassword = document.getElementById("oldPassword").value;
+            var newPassword = document.getElementById("newPassword").value;
+            var confirmNewPassword = document.getElementById("confirmNewPassword").value;
+
+            // Add your logic to check old password and update the new password
+            // For demonstration purposes, a simple check is performed here
+            if (oldPassword === "{{ user.oldPassword }}" && newPassword === confirmNewPassword) {
+                document.getElementById("changePasswordMessage").innerHTML = "<div class='alert alert-success'>Password updated successfully!</div>";
+            } else {
+                document.getElementById("changePasswordMessage").innerHTML = "<div class='alert alert-danger'>Old password is incorrect or new passwords do not match.</div>";
+            }
+        }
+
+        function changePhoneNumber() {
+            var newPhoneNumber = prompt("Enter your new phone number:");
+            if (newPhoneNumber) {
+                document.getElementById("phoneNumber").value = newPhoneNumber;
+            }
+        }
+    </script>
+</body>
+
+</html>
