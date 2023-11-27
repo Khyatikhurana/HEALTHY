@@ -1,0 +1,69 @@
+ @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+/* Global Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.875rem;
+    opacity: 1;
+    overflow-y: scroll;
+    margin: 0;
+    color: #e9ecef; /* Text color */
+}
+
+.wrapper {
+    align-items: stretch;
+    display: flex;
+    width: 100%;
+    
+}
+
+.container {
+    /* background-color: rgba(34, 46, 60, 0.05); /* Background color */
+    /* padding: 20px; Adjust the padding as needed
+     margin: 20px; /* Adjust the margin as needed */
+     align-self: center;
+     
+}
+
+/* Sidebar Styles */
+#sidebar {
+    background: var(--bs-dark);
+}
+
+.sidebar-link,
+.sidebar-header {
+    color: #e9ecef; /* Text color */
+}
+
+/* User Details Styles */
+.form-control1 {
+    border-width: 0cap;
+    border-radius: 0%;
+    background-color:rgba(34, 46, 60, 0.05); 
+}
+.row{
+    background-color: rgba(34, 46, 60, 0.05); /* Background color */
+    color: #e9ecef; /* Text color */
+    width: 2000px;
+    align-self: center;
+}
+.profile-button {
+    background-color: rgba(34, 46, 60, 0.05); /* Background color */
+    color: #e9ecef; /* Text color */
+}
+
+/* Password Section Styles */
+.password-container {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: #e9ecef; /* Text color */
+}
+
