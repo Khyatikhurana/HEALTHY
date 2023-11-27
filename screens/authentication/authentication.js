@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Show success message or perform other actions based on the response
       })
       .catch((error) => {
+        alert("Invalid username or password.");
         console.error("Error:", error);
         // Handle errors or show error messages to the user
       });
@@ -71,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var firstName = document.getElementById("firstName").value;
     var lastName = document.getElementById("lastName").value;
+    var username = document.getElementById("username").value;
     var email = document.getElementById("email").value;
     var phoneNumber = document.getElementById("phoneNumber").value;
     var password = document.getElementById("signUpPassword").value;
@@ -78,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (
       firstName === "" ||
+      username === "" ||
       lastName === "" ||
       email === "" ||
       phoneNumber === "" ||
@@ -100,11 +103,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     var newuser = {
-      fname: firstName,
-      lname: lastName,
+      firstName: firstName,
+      lastName: lastName,
+      username: username,
       email: email,
-      phone: phoneNumber,
-      pswd: password,
+      phoneNumber: phoneNumber,
+      password: password,
     };
 
     fetch("/signup", {
