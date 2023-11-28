@@ -2,9 +2,7 @@ const express = require("express");
 const app = express();
 const fs = require("fs");
 const path = require("path");
-const queryFunctions = require("./database/queryFunctions"); // Import your queryFunctions file
-
-// -------------- getting components --------------
+/*-------------- getting components --------------*/
 
 // navbar component
 const navbarHTML = fs.readFileSync(
@@ -76,108 +74,99 @@ const authenticationJS = fs.readFileSync(
 const authScreen = `${authentication}\n<script>${authenticationJS}</script>`;
 
 // user profile screen
+const userProfile = fs.readFileSync(
+  path.join(__dirname, "screens", "UserProfile", "userprofile.html"),
+  "utf-8"
+);
+const userProfileCSS = fs.readFileSync(
+  path.join(__dirname, "screens", "UserProfile", "userprofile.css"),
+  "utf-8"
+);
+const userScreen = `${userProfile}\n<style>${userProfileCSS}</style>`;
+
+// Appointment screen
+const appointment = fs.readFileSync(
+  path.join(__dirname, "screens", "appointment", "appointment.html"),
+  "utf-8"
+);
+const appointmentJS = fs.readFileSync(
+  path.join(__dirname, "screens", "appointment", "appointment.js"),
+  "utf-8"
+);
+const appointmentCSS = fs.readFileSync(
+  path.join(__dirname, "screens", "appointment", "appointment.css"),
+  "utf-8"
+);
+
+const appointmentScreen = `${appointment}\n<style>${appointmentCSS}</style>`;
 
 // ------------------------------ routing ---------------------------------
-
-var activeUserId = "";
 
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "images")));
 
-// --------- Serve landing page - Authentication page -------------
+// --------- Serve landing page-------------
 
 app.get("/", (req, res) => {
-  if(activeUserId !== ""){
-    res.redirect("/dashboard");
-    return;
-  }
-  console.log("Request received for authentication page");
-  res.status(200).send(authScreen);
-});
-
-app.post("/signin", (req, res) => {
-  const { userid, userpswd } = req.body;
-  console.log(userid);
-  console.log(userpswd);
-
-  queryFunctions.signInCheck(userid, (error, results) => {
-    if (error) {
-      console.error("Error fetching user data:", error);
-      return;
-    }
-    console.log("Query results:", results);
-    if (results.length === 0) {
-      res.status(401).json({ message: "Authentication failed" });
-      return;
-    }
-    if(results[0].password !== userpswd){
-      res.status(401).json({ message: "Authentication failed" });
-      return;
-    }// This will output the insertId value, in this case, 45
-    activeUserId = userid;
-    res.status(200).json({ message: "Authentication successful" });
-  });
-});
-
-app.post("/signup", (req, res) => {
-  const {firstName,lastName,username,email,phoneNumber,password} = req.body;
-  const newUser = [username,firstName,lastName,email,phoneNumber,password];
-  queryFunctions.signUpCheck(newUser, (error, results) => {
-    if (error) {
-      console.error("Error updating user table:", error);
-      return;
-    }
-    
-    console.log("Query results:", results);
-    console.log(results.insertId); // This will output the insertId value, in this case, 45
-    activeUserId = results.insertId;
-    res.status(200).json({ message: "Authentication successful" });
-  });
-});
-
-// ------------- Dashboard page -------------
-
-app.get("/dashboard", (req, res) => {
-  if (activeUserId === "") {
-    res.redirect("/");
-    return;
-  }
-
-  queryFunctions.getUserName(activeUserId, (error, results) => {
-    if (error) {
-      console.error("Error updating user table:", error);
-      return;
-    }
-    console.log("Query results:", results);
-    console.log(results.first_name); // This will output the insertId value, in this case, 45
-    activeUserId = results.insertId;
-    // res.status(200).json({ message: "Authentication successful" });
-    // if not signed in redirect to landing page
-    console.log("Request received for dashboard page");
-    const temp = dashboardScreen.replace("{%USER-NAME%}",results[0].first_name );
-    const output = temp.replace("{%NAVBAR%}", navbar);
-    res.status(200).send(output);
-  });
+  console.log("Request received for landing page");
+  res.redirect("/authentication");
 });
 
 //------------- appointment page -------------
 
 app.get("/appointment", (req, res) => {
-  // if not signed in redirect to landing page
-  if (activeUserId === "") {
-    res.redirect("/");
-  }
   console.log("Request received for appointment page");
-  res.status(200).send("<h2>Appointment page</h2>");
+  const output = appointmentScreen.replace("{%NAVBAR%}", navbar);
+  res.status(200).send(output);
+  // res.status(200).send("<h2>Appointment page</h2>");
+});
+// ------------- Dashboard page -------------
+
+app.get("/dashboard", (req, res) => {
+  console.log("Request received for dashboard page");
+  const output = dashboardScreen.replace("{%NAVBAR%}", navbar);
+  res.status(200).send(output);
+  // console.log(output);
+});
+
+// ---------- Authentication page -------------
+
+// var username =""
+// var uderid = ""
+app.get("/authentication", (req, res) => {
+  console.log("Request received for booking page");
+  res.status(200).send(authScreen);
+});
+
+app.post('/signin', (req, res) => {
+  // const { uname, upswd } = req.body;
+  // const foundUser = users.find(user => user.username === uname && user.password === upswd);
+  console.log(req.body);
+  // if (foundUser) {
+  //   // If authentication is successful
+  res.status(200).json({ message: 'Authentication successful' });
+  // } else {
+  //   // If authentication fails
+  //   res.status(401).json({ error: 'Authentication failed' });
+  // }
+});
+
+app.post('/signup', (req, res) => {
+  // const { uname, upswd } = req.body;
+  // const foundUser = users.find(user => user.username === uname && user.password === upswd);
+  console.log(req.body);
+  // if (foundUser) {
+  //   // If authentication is successful
+  res.status(200).json({ message: 'Authentication successful' });
+  // } else {
+  //   // If authentication fails
+  //   res.status(401).json({ error: 'Authentication failed' });
+  // }
 });
 
 // ---------- Schedule page -------------
 
 app.get("/booking", (req, res) => {
-  // if not signed in redirect to landing page
-  if (activeUserId === "") {
-    res.redirect("/");
-  }
   console.log("Request received for booking page");
   const output = scheduleScreen.replace("{%NAVBAR%}", navbar);
   res.status(200).send(output);
@@ -186,17 +175,13 @@ app.get("/booking", (req, res) => {
 app.post("/booking", (req, res) => {
   console.log("new request :)");
   console.log(req.body);
-  const output = scheduleScreen.replace("{%NAVBAR%}", navbar);
+  const output =  scheduleScreen.replace("{%NAVBAR%}", navbar);
   // Handle POST data as needed
   res.status(200).send(output);
 });
 
 // ----------  file upload page -------------
 app.get("/files", (req, res) => {
-  // if not signed in redirect to landing page
-  if (activeUserId === "") {
-    res.redirect("/");
-  }
   console.log("Request received for file upload page");
   const output = uploadScreen.replace("{%NAVBAR%}", navbar);
   res.status(200).send(output);
@@ -204,10 +189,6 @@ app.get("/files", (req, res) => {
 
 // ---------- User profile page -------------
 app.get("/user", (req, res) => {
-  // if not signed in redirect to landing page
-  if (activeUserId === "") {
-    res.redirect("/");
-  }
   console.log("Request received for user profile page");
   res.status(200).send("<h2>User page</h2>");
 });
