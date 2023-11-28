@@ -18,29 +18,25 @@
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                     <img class="rounded-circle mt-5" width="150px" src="../../images/profile.jpg">
-                    <span class="font-weight-bold">User ID:<input type="text" class="form-control1" id="userId" value="{{ user.id }}" readonly></span><span class="text-black-50">
-                        <input type="email" class="form-control1" id="email" value="{{ user.email }}" readonly>
+                    <span class="font-weight-bold">User ID: {%USER-ID%}</span><class="text-black-50">
+                        {%USER-EMAIL%}
                     </span>
                 </div>
             </div>
             <div class="col-md-5 border-right">
                 <div class="p-3 py-5">
                     <!-- Existing user details -->
-                    <div class="mb-3">
-                        <label for="firstName" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="firstName" value="{{ user.firstName }}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="lastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" value="{{ user.lastName }}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="phoneNumber" class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control" id="phoneNumber" value="{{ user.phoneNumber }}" readonly>
-                        <button class="btn btn-primary mt-2" onclick="changePhoneNumber()">Change Phone Number</button>
+                    <div id="user "class="mb-3">
+                       First Name : {%FIRSTNAME%}
+                       </div>
+                    <div id="user "class="mb-3">
+                       Last Name : {%LASTNAME%}<br>
+                       </div>
+                    <div id="user "class="mb-3">
+                       Phone Number : {%PHONENUMBER%}<br>
+                       </div>
                     </div>
 
-                    <!-- Change Password Section -->
                     <h6 class="mb-3" id="changePasswordHeading">
                         Change Password
                         <span class="arrow" onclick="togglePasswordSection()">▼</span>

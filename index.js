@@ -3,6 +3,8 @@ const app = express();
 const fs = require("fs");
 const path = require("path");
 const queryFunctions = require("./database/queryFunctions"); // Import your queryFunctions file
+const dateFormatter = require("./database/dateFormatter"); // Import your queryFunctions file
+const fillTemplate = require("./database/fillDepartment"); // Import your queryFunctions file
 
 // -------------- getting components --------------
 
@@ -76,9 +78,16 @@ const authenticationJS = fs.readFileSync(
 const authScreen = `${authentication}\n<script>${authenticationJS}</script>`;
 
 // user profile screen
-
+const userProfile = fs.readFileSync(
+  path.join(__dirname, "screens", "UserProfile", "userprofile.html"),
+  "utf-8"
+);
+const userProfileCSS = fs.readFileSync(
+  path.join(__dirname, "screens", "UserProfile", "userprofile.css"),
+  "utf-8"
+);
+const userScreen = `${userProfile}\n<style>${userProfileCSS}</style>`;
 // ------------------------------ routing ---------------------------------
-
 var activeUserId = "";
 
 app.use(express.json());
@@ -87,7 +96,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 // --------- Serve landing page - Authentication page -------------
 
 app.get("/", (req, res) => {
-  if(activeUserId !== ""){
+  if (activeUserId !== "") {
     res.redirect("/dashboard");
     return;
   }
@@ -110,38 +119,60 @@ app.post("/signin", (req, res) => {
       res.status(401).json({ message: "Authentication failed" });
       return;
     }
-    if(results[0].password !== userpswd){
+    if (results[0].password !== userpswd) {
       res.status(401).json({ message: "Authentication failed" });
       return;
-    }// This will output the insertId value, in this case, 45
+    }
     activeUserId = userid;
     res.status(200).json({ message: "Authentication successful" });
   });
 });
 
 app.post("/signup", (req, res) => {
-  const {firstName,lastName,username,email,phoneNumber,password} = req.body;
-  const newUser = [username,firstName,lastName,email,phoneNumber,password];
+  const { firstName, lastName, username, email, phoneNumber, password } =
+    req.body;
+  const newUser = [username, firstName, lastName, email, phoneNumber, password];
   queryFunctions.signUpCheck(newUser, (error, results) => {
     if (error) {
       console.error("Error updating user table:", error);
       return;
     }
-    
+
     console.log("Query results:", results);
-    console.log(results.insertId); // This will output the insertId value, in this case, 45
+    console.log(results.insertId);
     activeUserId = results.insertId;
     res.status(200).json({ message: "Authentication successful" });
   });
 });
+app.post("/signup", (req, res) => {
+  const { firstName, lastName, username, email, phoneNumber, password } =
+    req.body;
+  const newUser = [username, firstName, lastName, email, phoneNumber, password];
+  queryFunctions.signUpCheck(newUser, (error, results) => {
+    if (error) {
+      console.error("Error updating user table:", error);
+      return;
+    }
 
+    console.log("Query results:", results);
+    console.log(results[0].insertId); // This will output the insertId value, in this case, 45
+    activeUserId = results[0].insertId;
+    res.status(200).json({ message: "Authentication successful" });
+  });
+});
+app.get("/logout", (req, res) => {
+  activeUserId = "";
+  res.redirect("/");
+});
 // ------------- Dashboard page -------------
 
 app.get("/dashboard", (req, res) => {
+  console.log("active user id", activeUserId);
   if (activeUserId === "") {
     res.redirect("/");
     return;
   }
+  console.log("Request received for dashboard page");
 
   queryFunctions.getUserName(activeUserId, (error, results) => {
     if (error) {
@@ -149,14 +180,37 @@ app.get("/dashboard", (req, res) => {
       return;
     }
     console.log("Query results:", results);
-    console.log(results.first_name); // This will output the insertId value, in this case, 45
-    activeUserId = results.insertId;
-    // res.status(200).json({ message: "Authentication successful" });
-    // if not signed in redirect to landing page
+    console.log(results[0].first_name);
     console.log("Request received for dashboard page");
-    const temp = dashboardScreen.replace("{%USER-NAME%}",results[0].first_name );
-    const output = temp.replace("{%NAVBAR%}", navbar);
-    res.status(200).send(output);
+    const temp1 = dashboardScreen.replace(
+      "{%USER-NAME%}",
+      results[0].first_name
+    );
+    const temp2 = temp1.replace("{%NAVBAR%}", navbar);
+
+    queryFunctions.getUserUpcomingAppointments(
+      activeUserId,
+      (error, results) => {
+        if (error) {
+          console.error("Error updating user table:", error);
+          return;
+        }
+        if (results.length === 0) {
+          var output = temp2.replace("{%APPT-DATE%}", "No");
+          output = output.replace("{%DR-NAME%}", "Any Doctor");
+          res.status(200).send(output);
+          return;
+        }
+        console.log("Query results:", results);
+        const formattedDate = dateFormatter.formatDate(results[0].date);
+        var output = temp2.replace("{%APPT-DATE%}", formattedDate);
+        output = output.replace(
+          "{%DR-NAME%}",
+          `Dr. ${results[0].doctor_first_name} ${results[0].doctor_last_name}`
+        );
+        res.status(200).send(output);
+      }
+    );
   });
 });
 
@@ -174,21 +228,62 @@ app.get("/appointment", (req, res) => {
 // ---------- Schedule page -------------
 
 app.get("/booking", (req, res) => {
-  // if not signed in redirect to landing page
   if (activeUserId === "") {
     res.redirect("/");
+    return;
   }
   console.log("Request received for booking page");
-  const output = scheduleScreen.replace("{%NAVBAR%}", navbar);
-  res.status(200).send(output);
+  var temp = scheduleScreen.replace("{%NAVBAR%}", navbar);
+  temp = temp.replace("{%PATIENT-ID%}", activeUserId);
+  queryFunctions.getDepartments(
+    (error, results) => {
+      if (error) {
+        console.error("Error getting departments:", error);
+        return;
+      }
+      const output = fillTemplate.replaceAppointmentDepartment(temp, results);
+      res.status(200).send(output);
+    });
 });
 
-app.post("/booking", (req, res) => {
-  console.log("new request :)");
+app.post("/getProvider", (req, res) => {
+  console.log("Request received for getting providers");
+  queryFunctions.getDepartmentsDoctor( req.body.department,
+    (error, results) => {
+      if (error) {
+        console.error("Error getting providers:", error);
+        return;
+      }
+      // console.log("Query results:", results);
+      res.status(200).send(results);
+    });
+});
+
+app.post("/getProviderSlots", (req, res) => {
+  console.log("Request received for getting provider slots");
+  queryFunctions.getDoctorAvailableSlots( req.body.doc_id, req.body.date, req.body.day,
+    (error, results) => {
+      if (error) {
+        console.error("Error getting slots:", error);
+        return;
+      }
+      // console.log("Query results:", results);
+      res.status(200).send(results);
+    });
+});
+
+app.post("/bookAppointment", (req, res) => {
+  console.log("Request received for booking");
   console.log(req.body);
-  const output = scheduleScreen.replace("{%NAVBAR%}", navbar);
-  // Handle POST data as needed
-  res.status(200).send(output);
+  queryFunctions.bookAppointment([req.body.doctorId, activeUserId, req.body.appointmentDate,req.body.slotId,req.body.apppintmentTime],
+    (error, results) => {
+      if (error) {
+        console.error("Error booking:", error);
+        return;
+      }
+      console.log("Query results:", results);
+      res.status(200).send(results);
+    });
 });
 
 // ----------  file upload page -------------
@@ -196,6 +291,7 @@ app.get("/files", (req, res) => {
   // if not signed in redirect to landing page
   if (activeUserId === "") {
     res.redirect("/");
+    return;
   }
   console.log("Request received for file upload page");
   const output = uploadScreen.replace("{%NAVBAR%}", navbar);
@@ -207,9 +303,24 @@ app.get("/user", (req, res) => {
   // if not signed in redirect to landing page
   if (activeUserId === "") {
     res.redirect("/");
+    return;
   }
   console.log("Request received for user profile page");
-  res.status(200).send("<h2>User page</h2>");
+  queryFunctions.getUserDetails(activeUserId,
+    (error, results) => {
+      if (error) {
+        console.error("Error getting data:", error);
+        return;
+      }
+      console.log("Query results:", results);
+      var output = userScreen.replace("{%NAVBAR%}", navbar);
+      output = output.replace("{%USER-ID%}", activeUserId);
+      output = output.replace("{%USER-EMAIL%}", results[0].email_id);
+      output = output.replace("{%FIRSTNAME%}", results[0].first_name);
+      output = output.replace("{%LASTNAME%}", results[0].last_name);
+      output = output.replace("{%PHONENUMBER%}", results[0].phone_no);
+      res.status(200).send(output);
+    });
 });
 
 // ------------------ Server ------------------

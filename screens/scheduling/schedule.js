@@ -1,83 +1,151 @@
-document.addEventListener("DOMContentLoaded", function() {
-  var patientName = document.querySelector("#patientName");
+document.addEventListener("DOMContentLoaded", function () {
   var department = document.querySelector("#department");
   var doctorName = document.querySelector("#provider");
   var appointmentDate = document.querySelector("#appointmentDate");
   var appointmentTime = document.querySelector("#appointmentTime");
-
   var button = document.querySelector("button");
 
-  button.addEventListener("click", function(event) {
-    event.preventDefault(); // Prevent the default form submission or button behavior
+  button.addEventListener("click", function (event) {
+    event.preventDefault();
+    const selectedDate = new Date(appointmentDate.value);
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const dayOfWeek = selectedDate.getDay();
+    const dayName = daysOfWeek[dayOfWeek];
 
     var appointment = {
-      patientName: patientName.value,
       department: department.value,
-      doctorName: doctorName.value,
+      doctorId: doctorName.value,
       appointmentDate: appointmentDate.value,
-      appointmentTime: appointmentTime.value
+      appointmentDay: dayName,
+      slotId: appointmentTime.value,
     };
-    
+
     // Display the form data in the console (for testing purposes)
     console.log(appointment);
 
-    fetch("/booking", {
+    fetch("/bookAppointment", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(appointment)
+      body: JSON.stringify(appointment),
     })
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error('Network response was not ok.');
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then((data) => {
+        // Process the response data as needed
+        console.log("Appointment scheduled successfully:", data);
+        const bookingStatusElement = document.getElementById("bookingStatus");
+        if (bookingStatusElement) {
+          bookingStatusElement.innerHTML = "<p>Booking successful!</p>";
+        }
+        // Show success message or perform other actions based on the response
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle errors or show error messages to the user
+      });
+  });
+
+  department.addEventListener("change", function (event) {
+    console.log("department changed");
+    const selectedDepartment = department.value;
+    fetch("/getProvider", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ department: selectedDepartment }),
     })
-    .then(data => {
-      // Process the response data as needed
-      console.log('Appointment scheduled successfully:', data);
-      // Show success message or perform other actions based on the response
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then((data) => {
+        console.log(data);
+        let final =
+          '<option value="" selected disabled>Select a provider</option>';
+        for (const entry of data) {
+          const doctorId = entry.doc_id;
+          const doctor = entry.first_name + " " + entry.last_name;
+          const modifiedOption = `<option value="${doctorId}">${doctor}</option>`;
+          final += modifiedOption;
+        }
+        document.getElementById("provider").innerHTML = final;
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle errors or show error messages to the user
+      });
+  });
+
+  appointmentDate.addEventListener("change", function (event) {
+    const selectedDateValue = appointmentDate.value;
+    const doctorId = doctorName.value;
+
+    const selectedDate = new Date(selectedDateValue);
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const dayOfWeek = selectedDate.getDay();
+
+    const dayName = daysOfWeek[dayOfWeek];
+
+    // Display the selected date and its corresponding day of the week
+    console.log("Selected Date:", selectedDateValue);
+    console.log("Day of the Week:", dayName);
+
+    fetch("/getProviderSlots", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        doc_id: doctorId,
+        date: selectedDateValue,
+        day: dayName,
+      }),
     })
-    .catch(error => {
-      console.error('Error:', error);
-      // Handle errors or show error messages to the user
-    });
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then((data) => {
+        console.log(data);
+        let final = '<option value="" selected disabled>Select a time</option>';
+        for (const entry of data) {
+          const slotId = entry.slot_id;
+          const slotTiming = entry.slot_timing;
+          const modifiedOption = `<option value="${slotId}">${slotTiming}</option>`;
+          final += modifiedOption;
+        }
+        document.getElementById("appointmentTime").innerHTML = final;
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle errors or show error messages to the user
+      });
   });
 });
-
-// // Sidebar toggle
-// const sidebarToggle=document.querySelector("#sidebar-toggle");
-// sidebarToggle.addEventListener("click",function(){
-//     document.querySelector("#sidebar").classList.toggle("collapsed");
-// });
-
-
-// theme toggle
-
-document.querySelector(".theme-toggle").addEventListener("click", () => {
-    toggleLocalStorage();
-    toggleRootClass();
-  });
-  
-  function toggleRootClass() {
-    const current = document.documentElement.getAttribute("data-bs-theme");
-    const inverted = current == "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-bs-theme", inverted);
-  }
-  
-  function toggleLocalStorage() {
-    if (isLight()) {
-      localStorage.removeItem("light");
-    } else {
-      localStorage.setItem("light", "set");
-    }
-  }
-  
-  function isLight() {
-    return localStorage.getItem("light");
-  }
-  
-  if (isLight()) {
-    toggleRootClass();
-  }

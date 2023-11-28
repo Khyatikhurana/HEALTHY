@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
+    <title>Schedule</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
@@ -13,7 +13,6 @@
       src="https://kit.fontawesome.com/ae360af17e.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="./schedule.css" />
   </head>
 
   <body>
@@ -22,59 +21,62 @@
       <div class="main">
         <section id="appointments">
           <h2>Book an Appointment</h2>
-          <form>
-            <!-- patient name -->
-            <label for="patientName">Patient Name:</label>
-            <input type="text" id="patientName" name="patientName" required />
-
-            <!-- department -->
-            <label for="department">Select Department:</label>
-            <select id="department" name="department">
-              <option value="orthoperdic">Orthopedic</option>
-              <option value="gynac">Gynac</option>
-              <option value="dentist">Dentist</option>
-              <!-- Add more provider options -->
-            </select>
-
-            <!-- provider -->
-            <label for="provider">Select Provider:</label>
-            <select id="provider" name="provider">
-              <option value="" selected disabled>Select a provider</option>
-              <option value="drJohnDoe">Dr. John Doe</option>
-              <option value="drJaneSmith">Dr. Jane Smith</option>
-              <option value="drAlexWilliam">Dr. Alex William</option>
-              <!-- Add more provider options -->
-            </select>
-
-            <!-- appointment date -->
-            <label for="appointmentDate">Appointment Date:</label>
-            <input
-              type="date"
-              id="appointmentDate"
-              name="appointmentDate"
-              required
-            />
-
-            <!-- appointmment timing / slot -->
-            <label for="appointmentTime">Select Appointment Time:</label>
-            <select id="appointmentTime" name="appointmentTime" required>
-              <option value="" selected disabled>Select a time</option>
-              <option value="09:00">09:00 AM</option>
-              <option value="10:00">10:00 AM</option>
-              <option value="11:00">11:00 AM</option>
-              <option value="13:00">01:00 PM</option>
-              <option value="14:00">02:00 PM</option>
-              <!-- Add more time slots as needed -->
-            </select>
-
-            <button>Book Appointment</button>
-          </form>
+          <section class="appointment-form">
+            <form>
+              <!-- patient name -->
+              <div class="form-item">
+                <label for="patientName" class="h5">Patient Id: {%PATIENT-ID%}</label>
+                <!-- <input type="text" id="patientName" name="patientName" required /> -->
+              </div>
+          
+              <!-- department -->
+              <div class="form-item">
+                <label for="department">Select Department:</label>
+                <select id="department" name="department">
+                  <option value="" selected disabled>Select a provider</option>
+                  {%DEPT-OPTS%}
+                  <!-- Add more provider options -->
+                </select>
+              </div>
+          
+              <!-- provider -->
+              <div class="form-item">
+                <label for="provider">Select Provider:</label>
+                <select id="provider" name="provider">
+                  <option value="" selected disabled>Select a provider</option>
+                </select>
+              </div>
+          
+              <!-- appointment date -->
+              <div class="form-item">
+                <label for="appointmentDate">Appointment Date:</label>
+                <input
+                  type="date"
+                  id="appointmentDate"
+                  name="appointmentDate"
+                  required
+                />
+              </div>
+          
+              <!-- appointment timing / slot -->
+              <div class="form-item">
+                <label for="appointmentTime">Select Appointment Time:</label>
+                <select id="appointmentTime" name="appointmentTime" required>
+                  <option value="" selected disabled>Select a time</option>
+                  <!-- Add more time slots as needed -->
+                </select>
+              </div>
+          
+              <button id="bookAppointment" class="smaller-button">Book Appointment</button>
+            </form>
+            <div id="bookingStatus"></div>
+          </section>
+          
           <!-- Form for booking appointments -->
         </section>
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <script src="./script.js"></script> -->
     <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
   </body>
 </html>

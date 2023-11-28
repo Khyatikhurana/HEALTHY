@@ -204,6 +204,7 @@ section {
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
+  min-width: 40%;
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 
@@ -250,7 +251,7 @@ ul {
   list-style: none;
   padding: 0;
   margin: 0;
-}
+} 
 .sec-title {
   position: relative;
   padding-bottom: 40px;
@@ -307,7 +308,7 @@ ul {
   color: #00b8ca;
   font-size: 18px;
 }
-.default-form .form-group input[type="text"],
+ .default-form .form-group input[type="text"],
 .default-form .form-group input[type="tel"],
 .default-form .form-group input[type="email"],
 .default-form .form-group select {
@@ -350,7 +351,7 @@ ul {
   -o-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   transition: all 0.3s ease;
-}
+} 
 .default-form .form-group .appointment-btn {
   position: relative;
   text-align: center;
@@ -388,6 +389,10 @@ ul {
   height: 268px;
   background: url(https://i.ibb.co/gjZ1NFM/pattern-Appoinment.png)
     no-repeat;
+} 
+
+.appointment-form .form-item {
+  margin-bottom: 15px; /* Adjust the margin-bottom to control the spacing between form items */
 }
 .appointment-section .schedule-column .inner-column {
   position: relative;
@@ -422,4 +427,13 @@ ul {
 .appointment-section .schedule-column .time-list .closed {
   position: relative;
   color: #00b8ca;
+}
+
+.smaller-button {
+  padding: 8px 12px; /* Adjust padding to control button size */
+  font-size: 14px; /* Change font size as needed */
+}
+
+#bookingStatus {
+  padding: 10px;
 }
