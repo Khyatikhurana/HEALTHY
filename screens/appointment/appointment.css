@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 :root {
   --dark-text: #f8fbff;
   --light-body: #f3f8fe;
@@ -11,6 +12,7 @@
   --shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   --font-family: consolas;
 }
+
 * {
   padding: 0;
   margin: 0;
@@ -24,6 +26,7 @@ body {
   background-color: #212529;
   overflow: hidden;
 }
+
 .contianer {
   display: flex;
   justify-content: flex-start;
@@ -37,7 +40,7 @@ body {
 
 .calendar {
   height: 510px;
-  width: max-content;
+  width: 450px;
   background-color: white;
   border-radius: 25px;
   overflow: hidden;
@@ -325,21 +328,10 @@ transition: all .2s ease-in-out;
 }
 
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
-*,
-::after,
-::before {
-    box-sizing: border-box;
-}
 
-body {
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.875rem;
-    opacity: 1;
-    overflow-y: scroll;
-    margin: 0;
-}
+
+
 
 a {
     cursor: pointer;

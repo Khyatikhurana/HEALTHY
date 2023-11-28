@@ -98,7 +98,7 @@ const appointmentCSS = fs.readFileSync(
   "utf-8"
 );
 
-const appointmentScreen = `${appointment}\n<style>${appointmentCSS}</style>`;
+const appointmentScreen = `${appointment}\n<style>${appointmentCSS}</style><script>${appointmentJS}</script>`;
 
 // ------------------------------ routing ---------------------------------
 
