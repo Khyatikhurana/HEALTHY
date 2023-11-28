@@ -93,7 +93,7 @@ var activeUserId = "";
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "images")));
 
-// --------- Serve landing page-------------
+// --------- Serve landing page - Authentication page -------------
 
 app.get("/", (req, res) => {
   if (activeUserId !== "") {
@@ -217,53 +217,12 @@ app.get("/dashboard", (req, res) => {
 //------------- appointment page -------------
 
 app.get("/appointment", (req, res) => {
+  // if not signed in redirect to landing page
+  if (activeUserId === "") {
+    res.redirect("/");
+  }
   console.log("Request received for appointment page");
-  const output = appointmentScreen.replace("{%NAVBAR%}", navbar);
-  res.status(200).send(output);
-  // res.status(200).send("<h2>Appointment page</h2>");
-});
-// ------------- Dashboard page -------------
-
-app.get("/dashboard", (req, res) => {
-  console.log("Request received for dashboard page");
-  const output = dashboardScreen.replace("{%NAVBAR%}", navbar);
-  res.status(200).send(output);
-  // console.log(output);
-});
-
-// ---------- Authentication page -------------
-
-// var username =""
-// var uderid = ""
-app.get("/authentication", (req, res) => {
-  console.log("Request received for booking page");
-  res.status(200).send(authScreen);
-});
-
-app.post('/signin', (req, res) => {
-  // const { uname, upswd } = req.body;
-  // const foundUser = users.find(user => user.username === uname && user.password === upswd);
-  console.log(req.body);
-  // if (foundUser) {
-  //   // If authentication is successful
-  res.status(200).json({ message: 'Authentication successful' });
-  // } else {
-  //   // If authentication fails
-  //   res.status(401).json({ error: 'Authentication failed' });
-  // }
-});
-
-app.post('/signup', (req, res) => {
-  // const { uname, upswd } = req.body;
-  // const foundUser = users.find(user => user.username === uname && user.password === upswd);
-  console.log(req.body);
-  // if (foundUser) {
-  //   // If authentication is successful
-  res.status(200).json({ message: 'Authentication successful' });
-  // } else {
-  //   // If authentication fails
-  //   res.status(401).json({ error: 'Authentication failed' });
-  // }
+  res.status(200).send("<h2>Appointment page</h2>");
 });
 
 // ---------- Schedule page -------------
