@@ -21,15 +21,20 @@ function validateSignUpForm() {
 
 document.addEventListener("DOMContentLoaded", function () {
   var buttonSignIn = document.getElementById("signin");
- 
+
   buttonSignIn.addEventListener("click", function (event) {
     event.preventDefault(); // Prevent the default form submission or button behavior
-    var username = document.getElementById("signInUsername").value;
+    var userid = document.getElementById("signInUsername").value; //TODO: change to userID stuff
     var password = document.getElementById("signInPassword").value;
 
+    if (userid === "" || password === "") {
+      alert("Please fill in all required fields for Sign In.");
+      return false;
+    }
+
     var user = {
-      uname: username,
-      upswd: password,
+      userid: userid,
+      userpswd: password,
     };
 
     fetch("/signin", {
@@ -49,10 +54,12 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         // Process the response data as needed
         console.log("Signed in successfully:", data);
+        window.history.replaceState(null, "", "/dashboard");
         window.location.href = "/dashboard";
         // Show success message or perform other actions based on the response
       })
       .catch((error) => {
+        alert("Invalid username or password.");
         console.error("Error:", error);
         // Handle errors or show error messages to the user
       });
@@ -65,16 +72,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var firstName = document.getElementById("firstName").value;
     var lastName = document.getElementById("lastName").value;
+    var username = document.getElementById("username").value;
     var email = document.getElementById("email").value;
     var phoneNumber = document.getElementById("phoneNumber").value;
     var password = document.getElementById("signUpPassword").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (
+      firstName === "" ||
+      username === "" ||
+      lastName === "" ||
+      email === "" ||
+      phoneNumber === "" ||
+      signUpPassword === "" ||
+      confirmPassword === ""
+    ) {
+      alert("Please fill in all required fields for Sign Up.");
+      return false;
+    }
+
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Invalid email format.");
+      return false;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Password and Confirm Password do not match.");
+      return false;
+    }
 
     var newuser = {
-      fname: firstName,
-      lname: lastName,
+      firstName: firstName,
+      lastName: lastName,
+      username: username,
       email: email,
-      phone: phoneNumber,
-      pswd: password,
+      phoneNumber: phoneNumber,
+      password: password,
     };
 
     fetch("/signup", {
@@ -94,6 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         // Process the response data as needed
         console.log("Signed Up successfully:", data);
+        window.history.replaceState(null, "", "/dashboard");
         window.location.href = "/dashboard";
         // Show success message or perform other actions based on the response
       })
