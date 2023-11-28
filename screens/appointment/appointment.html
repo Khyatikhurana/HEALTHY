@@ -15,60 +15,11 @@
 <body>
     <div class="wrapper">
      {%NAVBAR%}
-     <div class="contianer">
-      
-      <div class="calendar">
-        <div class="calendar-header">
-          <span class="month-picker" id="month-picker"> May </span>
-          <div class="year-picker" id="year-picker">
-            <span class="year-change" id="pre-year">
-              <pre><</pre>
-            </span>
-            <span id="year">2020 </span>
-            <span class="year-change" id="next-year">
-              <pre>></pre>
-            </span>
-          </div>
-        </div>
- 
-        <div class="calendar-body">
-          <div class="calendar-week-days">
-            <div>Sun</div>
-            <div>Mon</div>
-            <div>Tue</div>
-            <div>Wed</div>
-            <div>Thu</div>
-            <div>Fri</div>
-            <div>Sat</div>
-          </div>
-          <div class="calendar-days">
-          </div>
-        </div>
-        <div class="calendar-footer">
-        </div>
-        <div class="date-time-formate">
-          <div class="day-text-formate">TODAY</div>
-          <div class="date-time-value">
-            <div class="time-formate">02:51:20</div>
-            <div class="date-formate">23 - july - 2022</div>
-          </div>
-        </div>
-      
-        <div class="month-list"></div>
-      </div>
       <div class="flex-container">
         <div class="flex-box">
           
           <h3>Upcoming Appointments</h3>
-          <div class="History">
-            Appointment 1 with Dr abc 
-            <a href="#" class="Cancel">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square-fill" viewBox="0 0 16 16">
-              <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708"/>
-            </svg>
-          </a>
-
-          </div>
+          {%UPCOMING%}
         
         
         </div>
@@ -77,30 +28,17 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">#</th>
+                <th scope="col"></th>
                 <th scope="col">Date</th>
                 <th scope="col">Time</th>
                 <th scope="col">Doctor</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-    
+              {%HISTORY%}    
             </tbody>
           </table>
         </div>
-      </div>
     </div>
     
         

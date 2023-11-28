@@ -5,6 +5,8 @@ const path = require("path");
 const queryFunctions = require("./database/queryFunctions"); // Import your queryFunctions file
 const dateFormatter = require("./database/dateFormatter"); // Import your queryFunctions file
 const fillTemplate = require("./database/fillDepartment"); // Import your queryFunctions file
+const fillAppointments = require("./database/fillAppointments"); // Import your queryFunctions file
+const fillTable = require("./database/fillTable"); // Import your queryFunctions file
 
 // -------------- getting components --------------
 
@@ -66,6 +68,21 @@ const scheduleCSS = fs.readFileSync(
 );
 const scheduleScreen = `${schedule}\n<script>${scheduleJS}</script><style>${scheduleCSS}</style>`;
 
+// appointment screen
+const appointment = fs.readFileSync(
+  path.join(__dirname, "screens", "appointment", "appointment.html"),
+  "utf-8"
+);
+const appointmentJs = fs.readFileSync(
+  path.join(__dirname, "screens", "appointment", "appointment.js"),
+  "utf-8"
+);
+const appointmentCSS = fs.readFileSync(
+  path.join(__dirname, "screens", "appointment", "appointment.css"),
+  "utf-8"
+);
+const appointmentScreen = `${appointment}\n<script>${appointmentJs}</script><style>${appointmentCSS}</style>`;
+
 // authentication screen
 const authentication = fs.readFileSync(
   path.join(__dirname, "screens", "authentication", "authentication.html"),
@@ -79,11 +96,11 @@ const authScreen = `${authentication}\n<script>${authenticationJS}</script>`;
 
 // user profile screen
 const userProfile = fs.readFileSync(
-  path.join(__dirname, "screens", "UserProfile", "userprofile.html"),
+  path.join(__dirname, "screens", "userProfile", "userprofile.html"),
   "utf-8"
 );
 const userProfileCSS = fs.readFileSync(
-  path.join(__dirname, "screens", "UserProfile", "userprofile.css"),
+  path.join(__dirname, "screens", "userProfile", "userprofile.css"),
   "utf-8"
 );
 const userScreen = `${userProfile}\n<style>${userProfileCSS}</style>`;
@@ -114,7 +131,7 @@ app.post("/signin", (req, res) => {
       console.error("Error fetching user data:", error);
       return;
     }
-    console.log("Query results:", results);
+    // console.log("Query results:", results);
     if (results.length === 0) {
       res.status(401).json({ message: "Authentication failed" });
       return;
@@ -138,28 +155,13 @@ app.post("/signup", (req, res) => {
       return;
     }
 
-    console.log("Query results:", results);
-    console.log(results.insertId);
-    activeUserId = results.insertId;
-    res.status(200).json({ message: "Authentication successful" });
-  });
-});
-app.post("/signup", (req, res) => {
-  const { firstName, lastName, username, email, phoneNumber, password } =
-    req.body;
-  const newUser = [username, firstName, lastName, email, phoneNumber, password];
-  queryFunctions.signUpCheck(newUser, (error, results) => {
-    if (error) {
-      console.error("Error updating user table:", error);
-      return;
-    }
-
-    console.log("Query results:", results);
+    // console.log("Query results:", results);
     console.log(results[0].insertId); // This will output the insertId value, in this case, 45
     activeUserId = results[0].insertId;
     res.status(200).json({ message: "Authentication successful" });
   });
 });
+
 app.get("/logout", (req, res) => {
   activeUserId = "";
   res.redirect("/");
@@ -182,11 +184,12 @@ app.get("/dashboard", (req, res) => {
     console.log("Query results:", results);
     console.log(results[0].first_name);
     console.log("Request received for dashboard page");
-    const temp1 = dashboardScreen.replace(
+    var temp1 = dashboardScreen.replace(
       "{%USER-NAME%}",
       results[0].first_name
     );
-    const temp2 = temp1.replace("{%NAVBAR%}", navbar);
+    temp1 = temp1.replace("{%NAVBAR%}", navbar);
+    temp1 = temp1.replace("{%USER-ID%}", activeUserId);
 
     queryFunctions.getUserUpcomingAppointments(
       activeUserId,
@@ -196,12 +199,12 @@ app.get("/dashboard", (req, res) => {
           return;
         }
         if (results.length === 0) {
-          var output = temp2.replace("{%APPT-DATE%}", "No");
+          var output = temp1.replace("{%APPT-DATE%}", "No");
           output = output.replace("{%DR-NAME%}", "Any Doctor");
           res.status(200).send(output);
           return;
         }
-        console.log("Query results:", results);
+        // console.log("Query results:", results);
         const formattedDate = dateFormatter.formatDate(results[0].date);
         var output = temp2.replace("{%APPT-DATE%}", formattedDate);
         output = output.replace(
@@ -220,9 +223,46 @@ app.get("/appointment", (req, res) => {
   // if not signed in redirect to landing page
   if (activeUserId === "") {
     res.redirect("/");
+    return;
   }
   console.log("Request received for appointment page");
-  res.status(200).send("<h2>Appointment page</h2>");
+  queryFunctions.getUpcomingAppointments(activeUserId, (error, results) => {
+    if (error) {
+      console.error("Error getting appointments:", error);
+      return;
+    }
+    // console.log("Query results:", results);
+    var temp = fillAppointments.replaceAppointmentDepartment(results);
+    var output = appointmentScreen.replace("{%NAVBAR%}", navbar);
+    output = output.replace("{%UPCOMING%}", temp);
+
+    queryFunctions.allAppointments(activeUserId, (error, results) => {
+      if (error) {
+        console.error("Error getting appointments:", error);
+        return;
+      }
+      // console.log("Query results:", results);
+      var temp = fillTable.fillTable(results);
+      output = output.replace("{%HISTORY%}", temp);
+      res.status(200).send(output);
+    });
+  });
+});
+
+app.post("/deleteAppointment",(req, res) => {
+  console.log("Request received for deleting appointment");
+  console.log(req.body);
+  queryFunctions.deleteAppointment(
+    req.body.appointment_id,
+    (error, results) => {
+      if (error) {
+        console.error("Error deleting:", error);
+        return;
+      }
+      console.log("Query results:", results);
+      res.status(200).send(results);
+    }
+  );
 });
 
 // ---------- Schedule page -------------
@@ -235,33 +275,34 @@ app.get("/booking", (req, res) => {
   console.log("Request received for booking page");
   var temp = scheduleScreen.replace("{%NAVBAR%}", navbar);
   temp = temp.replace("{%PATIENT-ID%}", activeUserId);
-  queryFunctions.getDepartments(
-    (error, results) => {
-      if (error) {
-        console.error("Error getting departments:", error);
-        return;
-      }
-      const output = fillTemplate.replaceAppointmentDepartment(temp, results);
-      res.status(200).send(output);
-    });
+  queryFunctions.getDepartments((error, results) => {
+    if (error) {
+      console.error("Error getting departments:", error);
+      return;
+    }
+    const output = fillTemplate.replaceAppointmentDepartment(temp, results);
+    res.status(200).send(output);
+  });
 });
 
 app.post("/getProvider", (req, res) => {
   console.log("Request received for getting providers");
-  queryFunctions.getDepartmentsDoctor( req.body.department,
-    (error, results) => {
-      if (error) {
-        console.error("Error getting providers:", error);
-        return;
-      }
-      // console.log("Query results:", results);
-      res.status(200).send(results);
-    });
+  queryFunctions.getDepartmentsDoctor(req.body.department, (error, results) => {
+    if (error) {
+      console.error("Error getting providers:", error);
+      return;
+    }
+    // console.log("Query results:", results);
+    res.status(200).send(results);
+  });
 });
 
 app.post("/getProviderSlots", (req, res) => {
   console.log("Request received for getting provider slots");
-  queryFunctions.getDoctorAvailableSlots( req.body.doc_id, req.body.date, req.body.day,
+  queryFunctions.getDoctorAvailableSlots(
+    req.body.doc_id,
+    req.body.date,
+    req.body.day,
     (error, results) => {
       if (error) {
         console.error("Error getting slots:", error);
@@ -269,13 +310,21 @@ app.post("/getProviderSlots", (req, res) => {
       }
       // console.log("Query results:", results);
       res.status(200).send(results);
-    });
+    }
+  );
 });
 
 app.post("/bookAppointment", (req, res) => {
   console.log("Request received for booking");
   console.log(req.body);
-  queryFunctions.bookAppointment([req.body.doctorId, activeUserId, req.body.appointmentDate,req.body.slotId,req.body.apppintmentTime],
+  queryFunctions.bookAppointment(
+    [
+      req.body.doctorId,
+      activeUserId,
+      req.body.appointmentDate,
+      req.body.slotId,
+      req.body.apppintmentTime,
+    ],
     (error, results) => {
       if (error) {
         console.error("Error booking:", error);
@@ -283,7 +332,8 @@ app.post("/bookAppointment", (req, res) => {
       }
       console.log("Query results:", results);
       res.status(200).send(results);
-    });
+    }
+  );
 });
 
 // ----------  file upload page -------------
@@ -306,21 +356,20 @@ app.get("/user", (req, res) => {
     return;
   }
   console.log("Request received for user profile page");
-  queryFunctions.getUserDetails(activeUserId,
-    (error, results) => {
-      if (error) {
-        console.error("Error getting data:", error);
-        return;
-      }
-      console.log("Query results:", results);
-      var output = userScreen.replace("{%NAVBAR%}", navbar);
-      output = output.replace("{%USER-ID%}", activeUserId);
-      output = output.replace("{%USER-EMAIL%}", results[0].email_id);
-      output = output.replace("{%FIRSTNAME%}", results[0].first_name);
-      output = output.replace("{%LASTNAME%}", results[0].last_name);
-      output = output.replace("{%PHONENUMBER%}", results[0].phone_no);
-      res.status(200).send(output);
-    });
+  queryFunctions.getUserDetails(activeUserId, (error, results) => {
+    if (error) {
+      console.error("Error getting data:", error);
+      return;
+    }
+    console.log("Query results:", results);
+    var output = userScreen.replace("{%NAVBAR%}", navbar);
+    output = output.replace("{%USER-ID%}", activeUserId);
+    output = output.replace("{%USER-EMAIL%}", results[0].email_id);
+    output = output.replace("{%FIRSTNAME%}", results[0].first_name);
+    output = output.replace("{%LASTNAME%}", results[0].last_name);
+    output = output.replace("{%PHONENUMBER%}", results[0].phone_no);
+    res.status(200).send(output);
+  });
 });
 
 // ------------------ Server ------------------

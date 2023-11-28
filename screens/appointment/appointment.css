@@ -27,17 +27,6 @@ body {
   overflow: hidden;
 }
 
-.contianer {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center; /* Center vertically */
-  margin-left: 20px; /* Add space on the left */
-  margin-bottom: 20px; /* Add space on the bottom */
-  padding: 5% 0px 0px 0px;
-  
-  /* other styles remain the same */
-}
-
 .calendar {
   height: 510px;
   width: 450px;
@@ -301,17 +290,19 @@ transition: all .2s ease-in-out;
 
 .flex-container{
   display: flex;
+  width: 100%;
   justify-content: center;
   align-items: center; /* Center vertically */
   margin-left: 20px; /* Add space on the left */
   margin-bottom: 20px; /* Add space on the bottom */
   padding: 5% 0px 0px 0px;
   flex-direction: column;
+  color: #151426;
 } 
 
 .flex-box{
-  width:400px;
-  height:200px;
+  width:100%;
+  padding: 20px;
   color:white;
   line-height: 30px;
   border-radius: 20px;

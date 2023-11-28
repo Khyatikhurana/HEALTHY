@@ -67,15 +67,47 @@ function bookAppointment(values, callback) {
   connection.query(bookAppointment, [values], callback);
 }
 
+function getUpcomingAppointments(userID, callback) {
+  const getAppointments =
+    "SELECT appointment.date,appointment.appointment_id, doctor.first_name AS doctor_first_name, doctor.last_name AS doctor_last_name \
+  FROM appointment \
+  JOIN doctor ON appointment.doc_id = doctor.doc_id \
+  WHERE appointment.patient_id = ? \
+    AND appointment.date > CURDATE() \
+  ORDER BY appointment.date ASC, appointment.slot_id ASC \
+  LIMIT 3;";
+
+  connection.query(getAppointments, [userID], callback);
+}
+
+function allAppointments(userID, callback) {
+  const getAppointments = `SELECT d.first_name AS doctor_first_name, d.last_name AS doctor_last_name, a.date, s.slot_timing AS appointment_time
+  FROM appointment a
+  JOIN doctor d ON a.doc_id = d.doc_id
+  JOIN slot s ON a.slot_id = s.slot_id
+  WHERE a.patient_id = ?
+  ORDER BY a.date DESC, s.slot_timing DESC;
+`;
+ connection.query(getAppointments, [userID], callback);
+}
+
+function deleteAppointment(appointmentID, callback) {
+  const deleteAppointment = "DELETE FROM appointment WHERE appointment_id = ?";
+  connection.query(deleteAppointment, [appointmentID], callback);
+}
+
 module.exports = {
   signInCheck,
   signUpCheck,
   getUserName,
   getUserDetails,
   getUserUpcomingAppointments,
+  getUpcomingAppointments,
   getDepartments,
   getDepartmentsDoctor,
   getDoctorAvailableSlots,
-  bookAppointment
+  bookAppointment,
+  allAppointments,
+  deleteAppointment
   // Export other query functions as needed
 };
