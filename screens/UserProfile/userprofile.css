@@ -2,29 +2,34 @@
 /* Global Styles */
 body {
     font-family: 'Poppins', sans-serif;
-    font-size: 0.875rem;
+    font-size: 16px;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
     opacity: 1;
     overflow-y: scroll;
     margin: 0;
-    color: #e9ecef; /* Text color */
 }
-
+div{
+    display: inline-block;
+}
 .wrapper {
-    align-items: stretch;
+    align-items: flex-start;
     display: flex;
     width: 100%;
+    background-color: #1A1D20;
     
 }
 
 #user{
     padding: 10px;
 }
-.container {
-     background-color: rgba(34, 46, 60, 0.05); /* Background color */
-     padding: 20px; Adjust the padding as needed
-     margin: 20px; /* Adjust the margin as needed */
-     align-self: center;
-     
+.col-md-3 {
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--bs-dark);;
+    margin: 20px;
+    width: 2000px
 }
 
 /* Sidebar Styles */
@@ -38,20 +43,20 @@ body {
 }
 
 /* User Details Styles */
-.form-control1 {
+.form-control {
     border-width: 0cap;
-    border-radius: 0%;
-    background-color:rgba(34, 46, 60, 0.05); 
+    border-radius: 0%; 
 }
 .row{
-    background-color: rgba(34, 46, 60, 0.05); /* Background color */
-    color: #e9ecef; /* Text color */
-    width: 2000px;
+    color: rgb(126, 176, 250); /* Text color */
+    width: 3000px;
     align-self: center;
 }
 .profile-button {
-    background-color: rgba(34, 46, 60, 0.05); /* Background color */
-    color: #e9ecef; /* Text color */
+    /*background-color: black; /* Background color */
+    color: #e9ecef; /* Text color */*/
+    background-color: #3498db;
+    color: #fff;
 }
 
 /* Password Section Styles */
@@ -68,5 +73,9 @@ body {
     background-color: transparent;
     cursor: pointer;
     color: #e9ecef; /* Text color */
+}
+img {
+    float: left;
+    margin-right: 12px;
 }
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -11,110 +11,96 @@
     <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body style="background-color: #1A1D20;">
     <div class="wrapper">
         {%NAVBAR%}
-        <div class="row bg-grey d-flex justify-content-center">
-            <div class="col-md-3 border-right">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-2 border-right bg-dark">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                     <img class="rounded-circle mt-5" width="150px" src="../../images/profile.jpg">
                     <span class="font-weight-bold">User ID: {%USER-ID%}</span>
-                    <span class="text-black-50">{%USER-EMAIL%}</span>
-                    <!-- Existing user details -->
+                    <span class="text">{%USER-EMAIL%}</span></span>
+                    <span> </span>
+                </div>
+            </div>
+            <div class="col-md-5 border-right bg-dark">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Profile Settings</h4>
+                    </div>
                     <div id="user" class="mb-3">
                         First Name: {%FIRSTNAME%}
                     </div>
+                    <br>
                     <div id="user" class="mb-3">
-                        Last Name: {%LASTNAME%}<br>
+                        Last Name:{%LASTNAME%}
                     </div>
+                    <br>
                     <div id="user" class="mb-3">
                         Phone Number: <span id="phoneNumber">{%PHONENUMBER%}</span>
-                        <h6 id="changePhoneNumberHeading" class="text-center">
-                            Change Phone Number
-                            <span class="arrow" onclick="togglePhoneNumberSection()">▼</span>
-                        </h6>
-                        <div class="phone-number-section" style="display: none;">
-                            <div class="mb-3">
-                                <label for="newPhoneNumber" class="form-label">New Phone Number</label>
-                                <input type="text" class="form-control" id="newPhoneNumber">
+                    </div>
+                    <h6 id="changePhoneNumberHeading" class="mb-3">
+                        Change Phone Number
+                    </h6>
+                    <div class="phone-number-section">
+                        <div class="mb-3">
+                            <label for="newPhoneNumber" class="form-label">New Phone Number</label>
+                            <input type="text" class="form-control" id="newPhoneNumber">
+                        </div>
+                        <button class="btn btn-primary profile-button" type="button" onclick="changePhoneNumber()">Save</button>
+                    </div>
+                    <h6 id="changePasswordHeading" class="mb-3">
+                        Change Password
+                    </h6>
+                    <div class="password-section">
+                        <div class="mb-3 text-center">
+                            <label for="oldPassword" class="form-label">Old Password</label>
+                            <br>
+                            <div class="password-container">
+                                <table width="100%">
+                                    <tr>
+                                        <td><input type="password" class="form-control" id="oldPassword" required></td>
+                                        <td><button type="button" class="toggle-password" onclick="togglePassword('oldPassword')">👁️</button></td>
+                                    </tr>
+                                </table>
                             </div>
-                            <button class="btn btn-primary profile-button" type="button" onclick="changePhoneNumber()">Save</button>
                         </div>
-                    </div>
-                </div>
-
-                <h6 id="changePasswordHeading" class="text-center">
-                    Change Password
-                    <span class="arrow" onclick="togglePasswordSection()">▼</span>
-                </h6>
-                <div class="password-section" style="display: none;">
-                    <div class="mb-3 text-center">
-                        <label for="oldPassword" class="form-label">Old Password</label>
-                        <div class="password-container">
-                            <table width="100%">
-                                <tr>
-                                    <td><input type="password" class="form-control" id="oldPassword" required></td>
-                                    <td><button type="button" class="toggle-password" onclick="togglePassword('oldPassword')">👁️</button></td>
-                                </tr>
-                            </table>
+                        <br>
+                        <div class="mb-3 text-center">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <br>
+                            <div class="password-container">
+                                <table width="100%">
+                                    <tr>
+                                        <td><input type="password" class="form-control" id="newPassword" required></td>
+                                        <td><button type="button" class="toggle-password" onclick="togglePassword('newPassword')">👁️</button></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mb-3 text-center">
-                        <label for="newPassword" class="form-label">New Password</label>
-                        <div class="password-container">
-                            <table width="100%">
-                                <tr>
-                                    <td><input type="password" class="form-control" id="newPassword" required></td>
-                                    <td><button type="button" class="toggle-password" onclick="togglePassword('newPassword')">👁️</button></td>
-                                </tr>
-                            </table>
+                        <br>
+                        <div class="mb-3 text-center">
+                            <label for="confirmNewPassword" class="form-label">Confirm New Password</label>
+                            <br>
+                            <div class="password-container">
+                                <table width="100%">
+                                    <tr>
+                                        <td><input type="password" class="form-control" id="confirmNewPassword" required></td>
+                                        <td><button type="button" class="toggle-password" onclick="togglePassword('confirmNewPassword')">👁️</button></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
+                        <br>
+                        <button class="btn btn-primary profile-button" type="button" onclick="changePassword()">Change Password</button>
+                        <div class="mt-3" id="changePasswordMessage"></div>
                     </div>
-                    <div class="mb-3 text-center">
-                        <label for="confirmNewPassword" class="form-label">Confirm New Password</label>
-                        <div class="password-container">
-                            <table width="100%">
-                                <tr>
-                                    <td><input type="password" class="form-control" id="confirmNewPassword" required></td>
-                                    <td><button type="button" class="toggle-password" onclick="togglePassword('confirmNewPassword')">👁️</button></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary profile-button" type="button" onclick="changePassword()">Change Password</button>
-                    <div class="mt-3" id="changePasswordMessage"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function togglePhoneNumberSection() {
-            var phoneNumberSection = document.querySelector('.phone-number-section');
-            var arrow = document.querySelector('#changePhoneNumberHeading .arrow');
-
-            if (phoneNumberSection.style.display === 'none') {
-                phoneNumberSection.style.display = 'block';
-                arrow.textContent = '▲';
-            } else {
-                phoneNumberSection.style.display = 'none';
-                arrow.textContent = '▼';
-            }
-        }
-
-        function togglePasswordSection() {
-            var passwordSection = document.querySelector('.password-section');
-            var arrow = document.querySelector('#changePasswordHeading .arrow');
-
-            if (passwordSection.style.display === 'none') {
-                passwordSection.style.display = 'block';
-                arrow.textContent = '▲';
-            } else {
-                passwordSection.style.display = 'none';
-                arrow.textContent = '▼';
-            }
-        }
-
         function togglePassword(passwordField) {
             var passwordInput = document.getElementById(passwordField);
 
@@ -131,23 +117,8 @@
                 document.getElementById("phoneNumber").textContent = newPhoneNumber;
             }
         }
-
-        function changePassword() {
-            var oldPassword = document.getElementById("oldPassword").value;
-            var newPassword = document.getElementById("newPassword").value;
-            var confirmNewPassword = document.getElementById("confirmNewPassword").value;
-
-            // Add your logic to check old password and update the new password
-            // For demonstration purposes, a simple check is performed here
-            if (oldPassword === "{{ user.oldPassword }}" && newPassword === confirmNewPassword) {
-                document.getElementById("changePasswordMessage").innerHTML = "<div class='alert alert-success'>Password updated successfully!</div>";
-            } else {
-                document.getElementById("changePasswordMessage").innerHTML = "<div class='alert alert-danger'>Old password is incorrect or new passwords do not match.</div>";
-            }
-        }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
