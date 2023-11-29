@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Healthy - Login & Signup</title>
   <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
+  
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
@@ -69,7 +70,6 @@
     h2 {
       color: #001861;
     }
-  
 
     input,
     textarea {
@@ -118,48 +118,15 @@
       margin-top: 10px;
       display: inline-block;
     }
-    .doc-signup{
-      color: #001861;
-      text-decoration: none;
-      margin-top: 10px;
-      display: inline-block;
-    }
-    .doc-signup:hover {
-      text-decoration: underline;
-    }
 
     .forgot-password:hover {
       text-decoration: underline;
     }
 
-    /* .theme-toggle {
-      position: fixed;
-      top: 50%;
-      transform: translateY(-65%);
-      text-align: center;
-      z-index: 10;
-      right: 0;
-      left: auto;
-      border: none;
-      background-color: var(--bs-body-color);
+    .doc{
+        font-size: small;
     }
 
-    html[data-bs-theme="dark"] .theme-toggle .fa-sun,
-    html[data-bs-theme="light"] .theme-toggle .fa-moon {
-      cursor: pointer;
-      padding: 10px;
-      display: block;
-      font-size: 1.25rem;
-      color: #fff;
-    }
-
-    html[data-bs-theme="dark"] .theme-toggle .fa-moon {
-      display: none;
-    }
-
-    html[data-bs-theme="light"] .theme-toggle .fa-sun {
-      display: none;
-    } */
   </style>
 
   <script>
@@ -178,7 +145,10 @@
   <div id="title">Healthy</div>
   <div class="container">
     <div class="card">
-      <div class="heading">Sign In</div>
+      <div class="heading">
+        <div class="doc">Doctor</div>
+        Sign In
+    </div>
       <form>
         <input
           id="signInUsername"
@@ -206,16 +176,17 @@
         <button id="signin">Sign In</button>
       </form>
       <a href="#" class="forgot-password">Forgot Password?</a>
-      <br>
-      <a href="#" class="doc-signup">Provider? Sign In here</a>
     </div>
     <div class="card">
-      <div class="heading">Sign Up</div>
-      <p class="free-text">Sign up for free</p>
+      <div class="heading">
+        <div class="doc">Doctor</div>
+        Sign Up
+    </div>
+     
       <form>
-        <input type="text" id="firstName" placeholder="First Name" required />
-        <input type="text" id="lastName" placeholder="Last Name" required />
-        <input type="text" id="username" placeholder="Userame" required />
+        <input type="text" id="firstName" placeholder="Name" required />
+        <input type="text" id="lastName" placeholder="Department" required />
+        <input type="text" id="username" placeholder="Specialization" required />
         <input type="email" id="email" placeholder="Email" required />
         <input
           type="tel"
@@ -255,7 +226,9 @@
           👁️
           </button>
         </div>
-        <button id="signup">Sign Up</button>
+        <button id="signup">
+            Sign Up
+        </button>
       </form>
     </div>
 
