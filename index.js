@@ -40,15 +40,15 @@ const uploadScreen = `${uploadFile}\n<script>${uploadFileJs}</script><style>${up
 
 // dashboard screen
 const dashboard = fs.readFileSync(
-  path.join(__dirname, "screens", "Dashboard", "dashboard.html"),
+  path.join(__dirname, "screens", "dashboard", "dashboard.html"),
   "utf-8"
 );
 const dashboardJS = fs.readFileSync(
-  path.join(__dirname, "screens", "Dashboard", "dashboard.js"),
+  path.join(__dirname, "screens", "dashboard", "dashboard.js"),
   "utf-8"
 );
 const dashboardCSS = fs.readFileSync(
-  path.join(__dirname, "screens", "Dashboard", "dashboard.css"),
+  path.join(__dirname, "screens", "dashboard", "dashboard.css"),
   "utf-8"
 );
 const dashboardScreen = `${dashboard}\n<script>${dashboardJS}</script><style>${dashboardCSS}</style>`;
