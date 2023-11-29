@@ -146,8 +146,7 @@ app.post("/signin", (req, res) => {
 });
 
 app.post("/signup", (req, res) => {
-  const { firstName, lastName, username, email, phoneNumber, password } =
-    req.body;
+  const { firstName, lastName, username, email, phoneNumber, password } = req.body;
   const newUser = [username, firstName, lastName, email, phoneNumber, password];
   queryFunctions.signUpCheck(newUser, (error, results) => {
     if (error) {
@@ -155,9 +154,9 @@ app.post("/signup", (req, res) => {
       return;
     }
 
-    // console.log("Query results:", results);
-    console.log(results[0].insertId); // This will output the insertId value, in this case, 45
-    activeUserId = results[0].insertId;
+    console.log("Query results:", results);
+    console.log(results.insertId); // This will output the insertId value, in this case, 45
+    activeUserId = results.insertId;
     res.status(200).json({ message: "Authentication successful" });
   });
 });
@@ -206,7 +205,7 @@ app.get("/dashboard", (req, res) => {
         }
         // console.log("Query results:", results);
         const formattedDate = dateFormatter.formatDate(results[0].date);
-        var output = temp2.replace("{%APPT-DATE%}", formattedDate);
+        var output = temp1.replace("{%APPT-DATE%}", formattedDate);
         output = output.replace(
           "{%DR-NAME%}",
           `Dr. ${results[0].doctor_first_name} ${results[0].doctor_last_name}`
@@ -373,7 +372,7 @@ app.get("/user", (req, res) => {
 });
 
 // ------------------ Server ------------------
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 443;
 app.listen(PORT, () => {
   console.log(`Listening to requests on port ${PORT}...`);
 });
