@@ -15,7 +15,6 @@ function handleClick(element) {
   })
     .then((response) => {
       if (response.ok) {
-        windows.lcation.href = "/appointment";
         return response.json();
       }
       throw new Error("Network response was not ok.");

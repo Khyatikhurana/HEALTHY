@@ -1,243 +1,246 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Healthy - Login & Signup</title>
-  <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
-  
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Healthy - Login & Signup</title>
+    <script
+      src="https://kit.fontawesome.com/ae360af17e.js"
+      crossorigin="anonymous"
+    ></script>
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-    body {
-      font-family: "Poppins", sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #212525;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background-image: url('/Health-and-Wellness-Appointment-Scheduling-Platform/images/bg4.jpg');
-    }
-
-    #title {
-      background-color: #001861;
-      color: #fff;
-      text-align: center;
-      padding: 10px;
-      font-size: 24px;
-      width: 100%;
-      position: fixed;
-      top: 0;
-    }
-
-    .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      width: 600px;
-      max-width: 100%;
-      margin-top: 60px;
-    }
-
-    .heading {
-      font-weight: bold;
-      font-size: 28px;
-      color: #001861;
-      margin-bottom: 10px;
-    }
-
-    .free-text {
-      font-family: "Georgia", serif;
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
-
-    .card {
-      background-color: #ffffff;
-      opacity:0.8;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      width: 48%;
-      padding: 20px;
-      box-sizing: border-box;
-      margin-bottom: 20px;
-    }
-
-    h2 {
-      color: #001861;
-    }
-
-    input,
-    textarea {
-      width: calc(100% - 22px);
-      padding: 10px;
-      margin: 8px 0;
-      box-sizing: border-box;
-      border: 1px solid #001861;
-      border-radius: 4px;
-      display: inline-block;
-    }
-
-    .password-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-     .toggle-password {
-      background-color: #dad6d6;
-      color: #001861;
-      border: none;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-      font-size: 14px;
-      padding: 8px;
-    }
-
-    button {
-      background-color:#001861;
-      color: #fff;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    button:hover {
-      background-color: #676c7b;
-    }
-
-    .forgot-password {
-      color: #001861;
-      text-decoration: none;
-      margin-top: 10px;
-      display: inline-block;
-    }
-
-    .forgot-password:hover {
-      text-decoration: underline;
-    }
-
-    .doc{
-        font-size: small;
-    }
-
-  </style>
-
-  <script>
-    function togglePassword(inputId) {
-      var passwordInput = document.getElementById(inputId);
-      if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-      } else {
-        passwordInput.type = "password";
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #212525;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background-image: url("./images/bg4.jpg");
       }
-    }
-  </script>
-</head>
 
-<body>
-  <div id="title">Healthy</div>
-  <div class="container">
-    <div class="card">
-      <div class="heading">
-        <div class="doc">Doctor</div>
-        Sign In
-    </div>
-      <form>
-        <input
-          id="signInUsername"
-          type="text"
-          name="userid"
-          placeholder="User ID"
-          required
-        />
-        <div class="password-container">
-          <input
-            type="password"
-            name="password"
-            id="signInPassword"
-            placeholder="Password"
-            required
-          />
-          <button
-            type="button"
-            class="toggle-password"
-            onclick="togglePassword('signInPassword')"
-          >
-          👁️
-          </button>
-        </div>
-        <button id="signin">Sign In</button>
-      </form>
-      <a href="#" class="forgot-password">Forgot Password?</a>
-    </div>
-    <div class="card">
-      <div class="heading">
-        <div class="doc">Doctor</div>
-        Sign Up
-    </div>
-     
-      <form>
-        <input type="text" id="firstName" placeholder="Name" required />
-        <input type="text" id="lastName" placeholder="Department" required />
-        <input type="text" id="username" placeholder="Specialization" required />
-        <input type="email" id="email" placeholder="Email" required />
-        <input
-          type="tel"
-          id="phoneNumber"
-          placeholder="Phone Number"
-          required
-        />
-        <div class="password-container">
-          <input
-            type="password"
-            name="password"
-            id="signUpPassword"
-            placeholder="Set Password"
-            required
-          />
-          <button
-            type="button"
-            class="toggle-password"
-            onclick="togglePassword('signUpPassword')"
-          >
-          👁️
-          </button>
-        </div>
-        <div class="password-container">
-          <input
-            type="password"
-            name="confirmPassword"
-            id="confirmPassword"
-            placeholder="Confirm Password"
-            required
-          />
-          <button
-            type="button"
-            class="toggle-password"
-            onclick="togglePassword('confirmPassword')"
-          >
-          👁️
-          </button>
-        </div>
-        <button id="signup">
-            Sign Up
-        </button>
-      </form>
-    </div>
+      #title {
+        background-color: #001861;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+        font-size: 24px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+      }
 
-    <!-- Theme toggle button -->
-    <!-- <a href="#" class="theme-toggle">
-      <i class="fa-regular fa-moon"></i>
-      <i class="fa-regular fa-sun"></i>
-    </a> -->
-  </div>
-</body>
+      .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        width: 600px;
+        max-width: 100%;
+        margin-top: 60px;
+      }
+
+      .heading {
+        font-weight: bold;
+        font-size: 28px;
+        color: #001861;
+        margin-bottom: 10px;
+      }
+
+      .free-text {
+        font-family: "Georgia", serif;
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+
+      .card {
+        background-color: #ffffff;
+        opacity: 0.8;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        width: 48%;
+        padding: 20px;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        color: #001861;
+      }
+
+      input,
+      textarea {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 1px solid #001861;
+        border-radius: 4px;
+        display: inline-block;
+      }
+
+      .password-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .toggle-password {
+        background-color: #dad6d6;
+        color: #001861;
+        border: none;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        font-size: 14px;
+        padding: 8px;
+      }
+
+      button {
+        background-color: #001861;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background-color: #676c7b;
+      }
+
+      .forgot-password {
+        color: #001861;
+        text-decoration: none;
+        margin-top: 10px;
+        display: inline-block;
+      }
+
+      .forgot-password:hover {
+        text-decoration: underline;
+      }
+
+      .doc {
+        font-size: small;
+      }
+    </style>
+
+    <script>
+      function togglePassword(inputId) {
+        var passwordInput = document.getElementById(inputId);
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+        } else {
+          passwordInput.type = "password";
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="title">Healthy</div>
+    <div class="container">
+      <div class="card">
+        <div class="heading">
+          <div class="doc">Doctor</div>
+          Sign In
+        </div>
+        <form>
+          <input
+            id="signInUsername"
+            type="text"
+            name="userid"
+            placeholder="User ID"
+            required
+          />
+          <div class="password-container">
+            <input
+              type="password"
+              name="password"
+              id="signInPassword"
+              placeholder="Password"
+              required
+            />
+            <button
+              type="button"
+              class="toggle-password"
+              onclick="togglePassword('signInPassword')"
+            >
+              👁️
+            </button>
+          </div>
+          <button id="docSignin">Sign In</button>
+        </form>
+        <a href="#" class="forgot-password">Forgot Password?</a>
+      </div>
+      <div class="card">
+        <div class="heading">
+          <div class="doc">Doctor</div>
+          Sign Up
+        </div>
+
+        <form>
+          <input type="text" id="firstName" placeholder="First Name" required />
+          <input type="text" id="lastName" placeholder="Last Name" required />
+          <input type="email" id="email" placeholder="Email" required />
+          <input
+            type="tel"
+            id="phoneNumber"
+            placeholder="Phone Number"
+            required
+          />
+          <input
+            type="text"
+            id="department"
+            placeholder="Department"
+            required
+          />
+          <input
+            type="text"
+            id="specialization"
+            placeholder="Specialization"
+            required
+          />
+          <div class="password-container">
+            <input
+              type="password"
+              name="password"
+              id="signUpPassword"
+              placeholder="Set Password"
+              required
+            />
+            <button
+              type="button"
+              class="toggle-password"
+              onclick="togglePassword('signUpPassword')"
+            >
+              👁️
+            </button>
+          </div>
+          <div class="password-container">
+            <input
+              type="password"
+              name="confirmPassword"
+              id="confirmPassword"
+              placeholder="Confirm Password"
+              required
+            />
+            <button
+              type="button"
+              class="toggle-password"
+              onclick="togglePassword('confirmPassword')"
+            >
+              👁️
+            </button>
+          </div>
+          <button id="docSignup">Sign Up</button>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>
-
