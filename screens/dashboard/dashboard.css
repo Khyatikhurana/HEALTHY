@@ -135,6 +135,7 @@ a.sidebar-link{
 .card{
     box-shadow: 0 0.875rem 0 rgba(34, 46, 60, 0.05);
     margin-bottom: 24px;
+    justify-content: center;
 }
 
 .illustration{
@@ -143,7 +144,7 @@ a.sidebar-link{
 }
 
 .illustration-img{
-    max-width: 150px;
+    max-width: 200px;
     width:100%;
 }
 
@@ -197,3 +198,91 @@ html[data-bs-theme="dark"] .theme-toggle .fa-moon {
 html[data-bs-theme="light"] .theme-toggle .fa-sun {
     display: none;
 }
+body{
+    background-color: #212529;
+}
+
+.container{
+    width:80%;
+    margin:50px auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    grid-gap:25px;
+}
+.Dcards{
+    background-color:#e0e0e0;
+    box-shadow:0px 4px 8px 0px rgba(0,0,0,0.2);
+
+
+}
+.image-section{
+    height:225px; 
+    background-color: #001861;
+
+}
+.Dcontent{
+    padding: 20px 10px;
+    text-align: center;
+
+}
+.Dcards .img-one{
+    background-image: url('/Health-and-Wellness-Appointment-Scheduling-Platform/images/doc1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+    border: 4px solid #001861;
+}
+
+.Dcards .img-two{
+    background-image: url('/Health-and-Wellness-Appointment-Scheduling-Platform/images/doc2.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+    border: 4px solid #001861;
+}
+
+.Dcards .img-three{
+    background-image: url('/Health-and-Wellness-Appointment-Scheduling-Platform/images/doc3.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+    border: 4px solid #001861;
+}
+
+.Dcards .img-four{
+    background-image: url('/Health-and-Wellness-Appointment-Scheduling-Platform/images/doc4.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+    border: 4px solid #001861;
+}
+
+.Dcontent h3{
+    color: #001861;
+    font-family: sans-serif;
+}
+.Dcontent p{
+    margin:15px 0px;
+    font-size: 15px;
+}
+
+.Dcontent a{
+    text-decoration: none;
+    font-size: 17px;
+    color:#fff;
+    letter-spacing: 1.5px;
+    display:inline-block;
+    background-color: #001861;
+    border-radius: 30px;
+    padding:8px 15px;
+}
+.Dcontent a:hover{
+    background-color: black;
+    transition: 1s ease;
+}
+
+
