@@ -50,7 +50,7 @@ h4 {
     flex-direction: column;
     min-height: 100vh;
     min-width: 0;
-    overflow: hidden;
+    overflow: auto;
     transition: all 0.35s ease-in-out;
     width: 100%;
     background: var(--bs-dark-bg-subtle);
@@ -203,71 +203,90 @@ body{
 }
 
 .container{
-    width:80%;
+    width:85%;
     margin:50px auto;
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    grid-gap:25px;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    grid-gap:15px;
 }
 .Dcards{
+    width:200px;
+    height: 300px;
     background-color:#e0e0e0;
     box-shadow:0px 4px 8px 0px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    overflow-wrap: break-word;
+   
 
 
 }
 .image-section{
-    height:225px; 
+    height:150px; 
     background-color: #001861;
 
 }
 .Dcontent{
-    padding: 20px 10px;
+    padding: 10px 5px;
     text-align: center;
 
 }
 .Dcards .img-one{
-    background-image: url('/Health-and-Wellness-Appointment-Scheduling-Platform/images/doc1.jpg');
+    background-image: url('/Health-and-Wellness-Appointment-Scheduling-Platform/images/doctor1.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     border-radius: 50%;
+    width:180px;
+    margin-left: 10px;
+    margin-top: 5px;
     border: 4px solid #001861;
 }
 
 .Dcards .img-two{
-    background-image: url('/Health-and-Wellness-Appointment-Scheduling-Platform/images/doc2.jpeg');
+    background-image: url('/Health-and-Wellness-Appointment-Scheduling-Platform/images/dcotor2.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     border-radius: 50%;
+    width:180px;
+    margin-left: 10px;
+    margin-top: 5px;
     border: 4px solid #001861;
 }
 
 .Dcards .img-three{
-    background-image: url('/Health-and-Wellness-Appointment-Scheduling-Platform/images/doc3.jpg');
+    background-image: url('/Health-and-Wellness-Appointment-Scheduling-Platform/images/doctor3.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     border-radius: 50%;
+    width:180px;
+    margin-left: 10px;
+    margin-top: 5px;
     border: 4px solid #001861;
 }
 
 .Dcards .img-four{
-    background-image: url('/Health-and-Wellness-Appointment-Scheduling-Platform/images/doc4.jpg');
+    background-image: url('/Health-and-Wellness-Appointment-Scheduling-Platform/images/doctor4.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     border-radius: 50%;
+    width:180px;
+    margin-left: 10px;
+    margin-top: 5px;
     border: 4px solid #001861;
 }
 
-.Dcontent h3{
-    color: #001861;
+.Dcontent h4{
+    color:#001861;
     font-family: sans-serif;
+    font-weight: 700;
 }
 .Dcontent p{
-    margin:15px 0px;
+    margin:5px 0px;
     font-size: 15px;
+    color:grey;
 }
 
 .Dcontent a{
