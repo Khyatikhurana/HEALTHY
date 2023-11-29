@@ -29,7 +29,7 @@ const uploadFile = fs.readFileSync(
   "utf-8"
 );
 const uploadFileJs = fs.readFileSync(
-  path.join(__dirname, "screens", "uploadFile", "uploadfile.js"),
+  path.join(__dirname, "screens", "uploadFile", "uploadFile.js"),
   "utf-8"
 );
 const uploadFileCSS = fs.readFileSync(
