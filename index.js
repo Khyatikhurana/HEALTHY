@@ -96,11 +96,11 @@ const authScreen = `${authentication}\n<script>${authenticationJS}</script>`;
 
 // user profile screen
 const userProfile = fs.readFileSync(
-  path.join(__dirname, "screens", "userProfile", "userprofile.html"),
+  path.join(__dirname, "screens", "UserProfile", "userprofile.html"),
   "utf-8"
 );
 const userProfileCSS = fs.readFileSync(
-  path.join(__dirname, "screens", "userProfile", "userprofile.css"),
+  path.join(__dirname, "screens", "UserProfile", "userprofile.css"),
   "utf-8"
 );
 const userScreen = `${userProfile}\n<style>${userProfileCSS}</style>`;
