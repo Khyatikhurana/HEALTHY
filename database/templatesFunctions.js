@@ -1,27 +1,25 @@
 const dateFormatter = require("./dateFormatter");
 
-
 function replaceAppointmentDepartment(template, data) {
   //    console.log(data);
-      let final = "";
-    
-      // Iterate through each entry in the data array
-      for (const entry of data) {
-        const department = entry.department;
-        
-        // Generate the modified option for each department
-        const modifiedOption = `<option value="${department}">${department}</option>`;
-        
-        // Append the modified option to the final string
-        final += modifiedOption;
-      }
-    
-      // Replace the placeholder in the main template with the generated options
-      template = template.replace("{%DEPT-OPTS%}", final);
-    
-      return template;
-    }
-  
+  let final = "";
+
+  // Iterate through each entry in the data array
+  for (const entry of data) {
+    const department = entry.department;
+
+    // Generate the modified option for each department
+    const modifiedOption = `<option value="${department}">${department}</option>`;
+
+    // Append the modified option to the final string
+    final += modifiedOption;
+  }
+
+  // Replace the placeholder in the main template with the generated options
+  template = template.replace("{%DEPT-OPTS%}", final);
+
+  return template;
+}
 
 function fillTable(data) {
   let final = "";
@@ -98,5 +96,40 @@ function fillAppointment(data) {
   return final;
 }
 
+function fillDoctors(data) {
+  let final = "";
+var j = 1;
+  for (const ele of data) {
 
-module.exports = { fillTable, fillAppointment, fillDoctorTable, replaceAppointmentDepartment };
+    const modifiedOption = `
+    <div class="Dcards">
+                    <div>
+                        <img src = "./images/doc${j}.jpeg" style="background-size: cover;
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        border-radius: 50%;
+                        width:150px;
+                        height:150px;
+                        margin-left: 50px;
+                        margin-top: 5px;
+                        border: 4px solid #001861;";>
+                    </div>
+                        
+                        <div class="Dcontent">
+                            <h4>Dr ${ele.first_name} ${ele.last_name}</h4>
+                            <p>${ele.department}<br>${ele.specialist}<br>${ele.email_id}<br>${ele.clinic_name}</p>
+                        </div>
+                </div>`
+    final += modifiedOption;
+    j++;
+  }
+  return final;
+}
+
+module.exports = {
+  fillTable,
+  fillDoctors,
+  fillAppointment,
+  fillDoctorTable,
+  replaceAppointmentDepartment,
+};

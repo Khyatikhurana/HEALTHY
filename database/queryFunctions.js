@@ -82,6 +82,12 @@ function getUpcomingAppointments(userID, callback) {
   connection.query(getAppointments, [userID], callback);
 }
 
+function getDocterDetails(callback) {
+  const getDocterDetails =
+   "SELECT first_name, last_name, department, specialist, email_id, clinic_name FROM doctor";
+  connection.query(getDocterDetails, callback);
+}
+
 function allAppointments(userID, callback) {
   const getAppointments = `SELECT d.first_name AS doctor_first_name, d.last_name AS doctor_last_name, a.date, a.status, s.slot_timing AS appointment_time
     FROM appointment a
@@ -152,6 +158,7 @@ module.exports = {
   deleteAppointment,
   getDoctorName,
   getDoctorUpcomingAppointments,
+  getDocterDetails,
   getAllDoctorUpcomingAppointments,
   // Export other query functions as needed
 };

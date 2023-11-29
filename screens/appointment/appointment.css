@@ -24,7 +24,8 @@ body {
   font-family: var(--font-family);
   /* background:linear-gradient(to right, #9796f0, #fbc7d4); */
   background-color: #212529;
-  overflow: hidden;
+  overflow: auto;
+  height: 100%;
 }
 
 .calendar {

@@ -15,9 +15,14 @@ div{
 .wrapper {
     align-items: flex-start;
     display: flex;
+    height: 100%;
     width: 100%;
     background-color: #1A1D20;
     
+}
+
+.spacer{
+    margin-left: 50px;
 }
 
 #user{
