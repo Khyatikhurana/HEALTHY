@@ -1,12 +1,11 @@
 const express = require("express");
+const session = require("express-session");
 const app = express();
 const fs = require("fs");
 const path = require("path");
-const queryFunctions = require("./database/queryFunctions"); // Import your queryFunctions file
-const dateFormatter = require("./database/dateFormatter"); // Import your queryFunctions file
-const fillTemplate = require("./database/fillDepartment"); // Import your queryFunctions file
-const fillAppointments = require("./database/fillAppointments"); // Import your queryFunctions file
-const fillTable = require("./database/fillTable"); // Import your queryFunctions file
+const queryFunctions = require("./database/queryFunctions");
+const dateFormatter = require("./database/dateFormatter");
+const fillTemplate = require("./database/templatesFunctions");
 
 // -------------- getting components --------------
 
@@ -104,8 +103,46 @@ const userProfileCSS = fs.readFileSync(
   "utf-8"
 );
 const userScreen = `${userProfile}\n<style>${userProfileCSS}</style>`;
+
+// doctor authentication screen
+const docAuthentication = fs.readFileSync(
+  path.join(
+    __dirname,
+    "screens",
+    "docAuthentication",
+    "docAuthentication.html"
+  ),
+  "utf-8"
+);
+const docAuthenticationJS = fs.readFileSync(
+  path.join(__dirname, "screens", "docAuthentication", "docAuthentication.js"),
+  "utf-8"
+);
+const docAuthenticationScreen = `${docAuthentication}\n<script>${docAuthenticationJS}</script>`;
+
+// doctor dashboard screen
+const docDashboard = fs.readFileSync(
+  path.join(__dirname, "screens", "docDashboard", "docDashboard.html"),
+  "utf-8"
+);
+const docDashboardJS = fs.readFileSync(
+  path.join(__dirname, "screens", "docDashboard", "docDashboard.js"),
+  "utf-8"
+);
+const docDashboardCSS = fs.readFileSync(
+  path.join(__dirname, "screens", "docDashboard", "docDashboard.css"),
+  "utf-8"
+);
+const docDashboardScreen = `${docDashboard}\n<script>${docDashboardJS}</script><style>${docDashboardCSS}</style>`;
+
 // ------------------------------ routing ---------------------------------
-var activeUserId = "";
+app.use(
+  session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "images")));
@@ -113,19 +150,17 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 // --------- Serve landing page - Authentication page -------------
 
 app.get("/", (req, res) => {
-  if (activeUserId !== "") {
+  const activeUserId = req.session.activeUserId;
+  if (activeUserId) {
     res.redirect("/dashboard");
     return;
   }
-  console.log("Request received for authentication page");
+  // console.log("Request received for authentication page");
   res.status(200).send(authScreen);
 });
 
 app.post("/signin", (req, res) => {
   const { userid, userpswd } = req.body;
-  console.log(userid);
-  console.log(userpswd);
-
   queryFunctions.signInCheck(userid, (error, results) => {
     if (error) {
       console.error("Error fetching user data:", error);
@@ -140,13 +175,14 @@ app.post("/signin", (req, res) => {
       res.status(401).json({ message: "Authentication failed" });
       return;
     }
-    activeUserId = userid;
+    req.session.activeUserId = userid;
     res.status(200).json({ message: "Authentication successful" });
   });
 });
 
 app.post("/signup", (req, res) => {
-  const { firstName, lastName, username, email, phoneNumber, password } = req.body;
+  const { firstName, lastName, username, email, phoneNumber, password } =
+    req.body;
   const newUser = [username, firstName, lastName, email, phoneNumber, password];
   queryFunctions.signUpCheck(newUser, (error, results) => {
     if (error) {
@@ -156,20 +192,20 @@ app.post("/signup", (req, res) => {
 
     console.log("Query results:", results);
     console.log(results.insertId); // This will output the insertId value, in this case, 45
-    activeUserId = results.insertId;
+    req.session.activeUserId = results.insertId;
     res.status(200).json({ message: "Authentication successful" });
   });
 });
 
 app.get("/logout", (req, res) => {
-  activeUserId = "";
-  res.redirect("/");
+  delete req.session.activeUserId;
+  res.redirect("/docAuthentication");
 });
 // ------------- Dashboard page -------------
 
 app.get("/dashboard", (req, res) => {
-  console.log("active user id", activeUserId);
-  if (activeUserId === "") {
+  const activeUserId = req.session.activeUserId;
+  if (!activeUserId) {
     res.redirect("/");
     return;
   }
@@ -183,10 +219,7 @@ app.get("/dashboard", (req, res) => {
     console.log("Query results:", results);
     console.log(results[0].first_name);
     console.log("Request received for dashboard page");
-    var temp1 = dashboardScreen.replace(
-      "{%USER-NAME%}",
-      results[0].first_name
-    );
+    var temp1 = dashboardScreen.replace("{%USER-NAME%}", results[0].first_name);
     temp1 = temp1.replace("{%NAVBAR%}", navbar);
     temp1 = temp1.replace("{%USER-ID%}", activeUserId);
 
@@ -219,8 +252,8 @@ app.get("/dashboard", (req, res) => {
 //------------- appointment page -------------
 
 app.get("/appointment", (req, res) => {
-  // if not signed in redirect to landing page
-  if (activeUserId === "") {
+  const activeUserId = req.session.activeUserId;
+  if (!activeUserId) {
     res.redirect("/");
     return;
   }
@@ -231,7 +264,7 @@ app.get("/appointment", (req, res) => {
       return;
     }
     // console.log("Query results:", results);
-    var temp = fillAppointments.replaceAppointmentDepartment(results);
+    var temp = fillTemplate.fillAppointment(results);
     var output = appointmentScreen.replace("{%NAVBAR%}", navbar);
     output = output.replace("{%UPCOMING%}", temp);
 
@@ -241,14 +274,14 @@ app.get("/appointment", (req, res) => {
         return;
       }
       // console.log("Query results:", results);
-      var temp = fillTable.fillTable(results);
+      var temp = fillTemplate.fillTable(results);
       output = output.replace("{%HISTORY%}", temp);
       res.status(200).send(output);
     });
   });
 });
 
-app.post("/deleteAppointment",(req, res) => {
+app.post("/deleteAppointment", (req, res) => {
   console.log("Request received for deleting appointment");
   console.log(req.body);
   queryFunctions.deleteAppointment(
@@ -258,7 +291,7 @@ app.post("/deleteAppointment",(req, res) => {
         console.error("Error deleting:", error);
         return;
       }
-      console.log("Query results:", results);
+      // console.log("Query results:", results);
       res.status(200).send(results);
     }
   );
@@ -267,7 +300,8 @@ app.post("/deleteAppointment",(req, res) => {
 // ---------- Schedule page -------------
 
 app.get("/booking", (req, res) => {
-  if (activeUserId === "") {
+  const activeUserId = req.session.activeUserId;
+  if (!activeUserId) {
     res.redirect("/");
     return;
   }
@@ -279,6 +313,7 @@ app.get("/booking", (req, res) => {
       console.error("Error getting departments:", error);
       return;
     }
+    console.log("Query results:", results);
     const output = fillTemplate.replaceAppointmentDepartment(temp, results);
     res.status(200).send(output);
   });
@@ -314,6 +349,7 @@ app.post("/getProviderSlots", (req, res) => {
 });
 
 app.post("/bookAppointment", (req, res) => {
+  const activeUserId = req.session.activeUserId;
   console.log("Request received for booking");
   console.log(req.body);
   queryFunctions.bookAppointment(
@@ -337,8 +373,9 @@ app.post("/bookAppointment", (req, res) => {
 
 // ----------  file upload page -------------
 app.get("/files", (req, res) => {
+  const activeUserId = req.session.activeUserId;
   // if not signed in redirect to landing page
-  if (activeUserId === "") {
+  if (!activeUserId) {
     res.redirect("/");
     return;
   }
@@ -349,8 +386,8 @@ app.get("/files", (req, res) => {
 
 // ---------- User profile page -------------
 app.get("/user", (req, res) => {
-  // if not signed in redirect to landing page
-  if (activeUserId === "") {
+  const activeUserId = req.session.activeUserId;
+  if (!activeUserId) {
     res.redirect("/");
     return;
   }
@@ -371,8 +408,96 @@ app.get("/user", (req, res) => {
   });
 });
 
+// ---------- doctor authentication -------------
+
+app.get("/docAuthentication", (req, res) => {
+  const activeDocId = req.session.activeDocId;
+  if (activeDocId) {
+    res.redirect("/docDashboard");
+    return;
+  }
+  // console.log("Request received for doctor authentication page");
+  res.status(200).send(docAuthenticationScreen);
+});
+
+app.post("/docSignIn", (req, res) => {
+  console.log("Request received for doctor sign in page");
+  console.log(req.body);
+  req.session.activeDocId = req.body.docid;
+  res.status(200).json({ message: "Authentication successful" });
+});
+
+app.get("/docLogout", (req, res) => {
+  delete req.session.activeDocId;
+  console.log("Request received for doctor logout page");
+  res.redirect("/docAuthentication");
+});
+
+// ---------- doctor dashboard -------------
+app.get("/docDashboard", (req, res) => {
+  const activeDocId = req.session.activeDocId;
+  console.log(activeDocId);
+  if (!activeDocId) {
+    res.redirect("/docAuthentication");
+    return;
+  }
+  console.log("Request received for doctor dashboard page");
+
+  let output = ""; // Declare output variable here
+
+  queryFunctions.getDoctorName(activeDocId, (error, results) => {
+    if (error) {
+      console.error("Error getting data:", error);
+      return;
+    }
+    console.log("Query results:", results);
+    output = docDashboardScreen
+      .replace("{%DOC-ID%}", activeDocId)
+      .replace(
+        "{%DOC-NAME%}",
+        "Dr " + results[0].first_name + " " + results[0].last_name
+      );
+  });
+  queryFunctions.getDoctorUpcomingAppointments(
+    activeDocId,
+    (error, results) => {
+      if (error) {
+        console.error("Error getting data:", error);
+        return;
+      }
+      if (results.length === 0) {
+        output = output
+          .replace("{%APPT-DATE%}", "No")
+          .replace("{%PATIENT-NAME%}", "Any Patient");
+        res.status(200).send(output);
+        return;
+      }
+      console.log("Query results:", results);
+      const formattedDate = dateFormatter.formatDate(results[0].date);
+      console.log(formattedDate);
+      let final = output
+        .replace("{%APPT-DATE%}", formattedDate)
+        .replace("{%APP-ID%}", results[0].appointment_id);
+      final = final.replace(
+        "{%PATIENT-NAME%}",
+        `${results[0].patient_first_name} ${results[0].patient_last_name}`
+      );
+    });
+    queryFunctions.getAllDoctorUpcomingAppointments(
+      activeDocId,
+      (error, results) => {
+        if (error) {
+          console.error("Error getting appointments:", error);
+          return;
+        }
+        var temp = fillTemplate.fillDoctorTable(results);
+        output = output.replace("{%HISTORY%}", temp);
+        res.status(200).send(output);
+      });
+});
+
 // ------------------ Server ------------------
-const PORT = process.env.PORT || 443;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Listening to requests on port ${PORT}...`);
 });
