@@ -525,7 +525,7 @@ app.post("/cancelAppointment", (req, res) => {
 
 
 // ------------------ Server ------------------
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 443;
 app.listen(PORT, () => {
   console.log(`Listening to requests on port ${PORT}...`);
 });

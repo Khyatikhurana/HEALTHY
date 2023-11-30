@@ -3,9 +3,9 @@ const mysql = require("mysql");
 
 function createDBConnection() {
   const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'shubhi',
-    password: 'shubhi123',
+    host: 'projectdb.cxbghlggosvv.us-east-1.rds.amazonaws.com',
+    user: 'admin',
+    password: 'gobigobi123',
     database: 'inventory',
     port: 3306 // Use the correct port number here
   });
