@@ -8,8 +8,21 @@ body {
     opacity: 1;
     overflow-y: scroll;
     margin: 0;
+    background-color: #1A1D20;
 }
 
+.extra{
+    height: 100;
+    background-color: var(--bs-dark);
+}
+
+.extra1{
+    display: flex;
+
+}
+.spacer{
+    margin-left: 80px;
+}
 div{
     display: inline-block;
 }
@@ -17,20 +30,24 @@ div{
 .wrapper {
     align-items: flex-start;
     display: flex;
-    width: 100%;
-    background-color: #1A1D20;
-    
+    width: 100%;    
 }
 
 #user{
     padding: 10px;
 }
 
+h4{
+    color: #e2e2e2;
+    font-weight: 700;
+
+}
+
 .col-md-3 {
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: var(--bs-dark);;
+    background-color: var(--bs-dark);
     margin: 20px;
     width: 2000px;
     color:#3498db;

@@ -22,7 +22,6 @@ function getUserName(userID, callback) {
 function getUserDetails(userID, callback) {
   const getUserDetails = "SELECT * FROM patient WHERE patient_id = ?";
   connection.query(getUserDetails, [userID], callback);
-  connection.query(getUserDetails, [userID], callback);
 }
 
 function getUserUpcomingAppointments(userID, callback) {

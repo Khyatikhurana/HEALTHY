@@ -392,7 +392,7 @@ app.get("/files", (req, res) => {
     res.redirect("/");
     return;
   }
-  // console.log("Request received for file upload page");
+  console.log("Request received for file upload page");
   const output = uploadScreen.replace("{%NAVBAR%}", navbar);
   res.status(200).send(output);
 });
@@ -404,7 +404,7 @@ app.get("/user", (req, res) => {
     res.redirect("/");
     return;
   }
-  // console.log("Request received for user profile page");
+  console.log("Request received for user profile page");
   queryFunctions.getUserDetails(activeUserId, (error, results) => {
     if (error) {
       console.error("Error getting data:", error);
@@ -525,7 +525,7 @@ app.post("/cancelAppointment", (req, res) => {
 
 
 // ------------------ Server ------------------
-const PORT = process.env.PORT || 443;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Listening to requests on port ${PORT}...`);
 });
