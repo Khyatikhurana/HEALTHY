@@ -1,39 +1,85 @@
-const AWS = require('aws-sdk');
-const fs = require('fs');
-const path = require('path');
+// const {S3Client,GetObjectCommand} = require("@aws-sdk/client-s3");
+// const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+// // Create an S3 client
+// const s3Client = new S3Client({
+//   region: 'usa-east-1', // Replace with your AWS region
+//   credentials: {
+//     accessKeyId: "ASIA5VDXAE7VFY6APVNN", 
+//     secretAccessKey:"ROkol78BkRZg7qy2ILP87waR9xvYrg0Pd/2mbJam",
+//   },
+// });
 
-// Configure AWS SDK with your credentials and region
-AWS.config.update({
-  accessKeyId: 'ASIA5VDXAE7VONHRTLHO',
-  secretAccessKey: 'YDERn9YeUUBpsAg28bqXBH6X4sEcldMde239cLrp',
-  region: 'us-east-1'
+// // Define a function to retrieve an image from S3
+// async function getObjectURL(key) {
+//   const command = new GetObjectCommand({
+//     Bucket:"projectimages1233",
+//     Key:key,
+// });
+//   const url=await getSignedUrl(s3Client,command);
+//   return url;
+// }
+// async function init(){
+//     console.log("URL for bg4.jpg", await getObjectURL("bg4.jpg"));
+// }
+// init();
+
+require("dotenv").config()
+
+const express = require('express')
+
+const app = express();
+
+app.listen(3001);
+
+const aws = require('aws-sdk')
+const multer = require('multer')
+const multerS3 = require('multer-s3');
+
+
+aws.config.update({
+    secretAccessKey: process.env.ACCESS_SECRET,
+    accessKeyId: process.env.ACCESS_KEY,
+    region: process.env.REGION,
+
 });
+const BUCKET = process.env.BUCKET
+const s3 = new aws.S3();
 
-const s3 = new AWS.S3();
-const bucketName = 'your-s3-bucket-name';
+const upload = multer({
+    storage: multerS3({
+        s3: s3,
+        acl: "public-read",
+        bucket: BUCKET,
+        key: function (req, file, cb) {
+            console.log(file);
+            cb(null, file.originalname)
+        }
+    })
+})
 
-function getImageFromS3(imageKey, localFilePath) {
-  const params = { Bucket: bucketName, Key: imageKey };
+app.post('/upload', upload.single('file'), async function (req, res, next) {
 
-  s3.getObject(params, (err, data) => {
-    if (err) {
-      console.error('Error fetching image from S3:', err);
-      return;
-    }
+    res.send('Successfully uploaded ' + req.file.location + ' location!')
 
-    // Save the image to a local file
-    fs.writeFile(localFilePath, data.Body, 'binary', (writeErr) => {
-      if (writeErr) {
-        console.error('Error writing image to local file:', writeErr);
-        return;
-      }
-      console.log(`Image saved locally at ${localFilePath}`);
-    });
-  });
-}
+})
 
-// Example usage
-const imageKey = 'bg4.jpg'; // Replace with the actual key of your image in S3
-const localFilePath = path.join(__dirname, 'downloaded-image.jpg');
+app.get("/list", async (req, res) => {
 
-getImageFromS3(imageKey, localFilePath);
+    let r = await s3.listObjectsV2({ Bucket: BUCKET }).promise();
+    let x = r.Contents.map(item => item.Key);
+    res.send(x)
+})
+
+
+app.get("/download/:filename", async (req, res) => {
+    const filename = req.params.filename
+    let x = await s3.getObject({ Bucket: BUCKET, Key: filename }).promise();
+    res.send(x.Body)
+})
+
+app.delete("/delete/:filename", async (req, res) => {
+    const filename = req.params.filename
+    await s3.deleteObject({ Bucket: BUCKET, Key: filename }).promise();
+    res.send("File Deleted Successfully")
+
+})
