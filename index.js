@@ -482,20 +482,20 @@ app.get("/docDashboard", (req, res) => {
         output = output
           .replace("{%APPT-DATE%}", "No")
           .replace("{%PATIENT-NAME%}", "Any Patient");
-        res.status(200).send(output);
-        return;
       }
-      // console.log("Query results:", results);
+      else{
+      console.log("Query results:", results);
       const formattedDate = dateFormatter.formatDate(results[0].date);
       // console.log(formattedDate);
-      let final = output
+      output = output
         .replace("{%APPT-DATE%}", formattedDate)
-        .replace("{%APP-ID%}", results[0].appointment_id);
-      final = final.replace(
+        .replace("{%APP-ID%}", results[0].appointment_id)
+      .replace(
         "{%PATIENT-NAME%}",
         `${results[0].patient_first_name} ${results[0].patient_last_name}`
       );
     }
+  }
   );
   queryFunctions.getAllDoctorUpcomingAppointments(
     activeDocId,
@@ -508,11 +508,24 @@ app.get("/docDashboard", (req, res) => {
       output = output.replace("{%HISTORY%}", temp);
       res.status(200).send(output);
     }
-  );
+    );
 });
 
+app.post("/cancelAppointment", (req, res) => {
+  // console.log("Request received for canceling appointment");
+  // console.log(req.body);
+  queryFunctions.deleteAppointment(req.body.appointment_id, (error, results) => {
+    if (error) {
+      console.error("Error canceling:", error);
+      return;
+    }
+    res.status(200).send("Appointment canceled");
+  });
+});
+
+
 // ------------------ Server ------------------
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 443;
 app.listen(PORT, () => {
   console.log(`Listening to requests on port ${PORT}...`);
 });

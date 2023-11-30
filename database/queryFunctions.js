@@ -22,6 +22,7 @@ function getUserName(userID, callback) {
 function getUserDetails(userID, callback) {
   const getUserDetails = "SELECT * FROM patient WHERE patient_id = ?";
   connection.query(getUserDetails, [userID], callback);
+  connection.query(getUserDetails, [userID], callback);
 }
 
 function getUserUpcomingAppointments(userID, callback) {
@@ -100,7 +101,7 @@ function allAppointments(userID, callback) {
 }
 
 function deleteAppointment(appointmentID, callback) {
-  const deleteAppointment = `UPDATE appointment SET status = "cancelled" WHERE appointment_id = ?`;
+  const deleteAppointment = `UPDATE appointment SET status = "Cancelled" WHERE appointment_id = ?`;
   connection.query(deleteAppointment, [appointmentID], callback);
 }
 
@@ -113,16 +114,16 @@ function getDoctorName(docID, callback) {
 
 function getDoctorUpcomingAppointments(userID, callback) {
   const getAppointments = `SELECT appointment.date, 
-    appointment.appointment_id, 
-    patient.first_name AS patient_first_name, 
-    patient.last_name AS patient_last_name
-    FROM appointment
-    JOIN patient ON appointment.patient_id = patient.patient_id
-    WHERE appointment.patient_id = ?
-    AND appointment.status = 'scheduled'
-    AND appointment.date > CURDATE()
-    ORDER BY appointment.date ASC, appointment.slot_id ASC
-    LIMIT 1;`;
+  appointment.appointment_id, 
+  patient.first_name AS patient_first_name, 
+  patient.last_name AS patient_last_name
+  FROM appointment
+  JOIN patient ON appointment.patient_id = patient.patient_id
+  WHERE appointment.doc_id = 1
+  AND appointment.status = 'scheduled' 
+  OR appointment.status = 'Scheduled'
+  AND date >= CURDATE() 
+  ORDER BY appointment.date ASC, appointment.slot_id ASC;`;
 
   connection.query(getAppointments, [userID], callback);
 }
@@ -137,7 +138,7 @@ function getAllDoctorUpcomingAppointments(userID, callback) {
   FROM appointment
   JOIN patient ON appointment.patient_id = patient.patient_id
   JOIN slot ON appointment.slot_id = slot.slot_id
-  ORDER BY appointment.date ASC, slot.slot_id ASC;
+  ORDER BY appointment.date DESC, slot.slot_id ASC;
   `;
 
   connection.query(getAppointments, [userID], callback);
