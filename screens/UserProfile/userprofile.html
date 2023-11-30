@@ -10,13 +10,16 @@
     <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
 </head>
 
-<body style="background-color: #1A1D20;">
-    <div class="wrapper">
+<body >
+    <div class="extra1">
+    <div class="extra">
         {%NAVBAR%}
+    </div>
+    <div class="wrapper">
         <div class="row d-flex justify-content-center">
             <div class="col-md-2 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                    <img class="rounded-circle mt-5" width="150px" src="../../images/profile.jpg">
+                    <img class="rounded-circle mt-5" width="150px" src="./images/profile.jpg">
                     <span class="font-weight-bold">User ID: {%USER-ID%}</span>
                     <span class="text">{%USER-EMAIL%}</span></span>
                     <span> </span>
@@ -38,7 +41,7 @@
                     <div id="user" class="mb-3">
                         Phone Number: <span id="phoneNumber">{%PHONENUMBER%}</span>
                     </div>
-                    <h6 id="changePhoneNumberHeading" class="mb-3">
+                    <h6 id="changePhoneNumberHeading" class="mb-3" style="color: #e2e2e2;">
                         Change Phone Number
                     </h6>
                     <div class="phone-number-section">
@@ -48,7 +51,7 @@
                         </div>
                         <button class="btn btn-primary profile-button" type="button" onclick="changePhoneNumber()">Save</button>
                     </div>
-                    <h6 id="changePasswordHeading" class="mb-3">
+                    <h6 id="changePasswordHeading" class="mb-3" style="color: #e2e2e2;">
                         Change Password
                     </h6>
                     <div class="password-section">
@@ -97,6 +100,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <script>
