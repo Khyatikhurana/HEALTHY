@@ -6,7 +6,34 @@ const path = require("path");
 const queryFunctions = require("./database/queryFunctions");
 const dateFormatter = require("./database/dateFormatter");
 const fillTemplate = require("./database/templatesFunctions");
+const aws = require("aws-sdk");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
+const e = require("express");
+require("dotenv").config();
 
+aws.config.update({
+  secretAccessKey: process.env.ACCESS_SECRET,
+  accessKeyId: process.env.ACCESS_KEY,
+  region: process.env.REGION,
+  sessionToken: process.env.SESSION_TOKEN,
+});
+
+const BUCKET = process.env.BUCKET;
+const s3 = new aws.S3();
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    acl: "public-read",
+    bucket: BUCKET,
+    key: function (req, file, cb) {
+      const activeUserId = req.session.activeUserId; // Assuming activeuserid is stored in session
+      const folderName = activeUserId + "/"; // Folder name is the active user's ID
+      cb(null, folderName + file.originalname);
+    },
+  }),
+});
 // -------------- getting components --------------
 
 // navbar component
@@ -199,6 +226,7 @@ app.post("/signup", (req, res) => {
 app.get("/logout", (req, res) => {
   delete req.session.activeUserId;
   res.redirect("/");
+  return;
 });
 // ------------- Dashboard page -------------
 
@@ -218,7 +246,7 @@ app.get("/dashboard", (req, res) => {
     }
     // console.log("Query results:", results);
     // console.log(results[0].first_name);
-    // console.log("Request received for dashboard page");
+    console.log("Request received for dashboard page");
     output = dashboardScreen
       .replace("{%USER-NAME%}", results[0].first_name)
       .replace("{%NAVBAR%}", navbar)
@@ -235,10 +263,9 @@ app.get("/dashboard", (req, res) => {
           output = output
             .replace("{%APPT-DATE%}", "No")
             .replace("{%DR-NAME%}", "Any Doctor");
-          res.status(200).send(output);
           return;
         }
-        // console.log("Query results:", results);
+        console.log("Query results:", results);
         const formattedDate = dateFormatter.formatDate(results[0].date);
         output = output
           .replace("{%APPT-DATE%}", formattedDate)
@@ -385,7 +412,7 @@ app.post("/bookAppointment", (req, res) => {
 });
 
 // ----------  file upload page -------------
-app.get("/files", (req, res) => {
+app.get("/files", async (req, res) => {
   const activeUserId = req.session.activeUserId;
   // if not signed in redirect to landing page
   if (!activeUserId) {
@@ -393,8 +420,56 @@ app.get("/files", (req, res) => {
     return;
   }
   console.log("Request received for file upload page");
-  const output = uploadScreen.replace("{%NAVBAR%}", navbar);
+  var output = uploadScreen.replace("{%NAVBAR%}", navbar);
+
+  const prefix = `${activeUserId}/`;
+  let r = await s3.listObjectsV2({ Bucket: BUCKET, Prefix: prefix }).promise();
+  let x = r.Contents.map((item) => item.Key);
+  
+  if (x.length === 0) {
+    output = output.replace("{%RECORDS%}", "No Files Uploaded");
+  } else {
+    var temp = fillTemplate.fillFiles(x);
+    output = output.replace("{%RECORDS%}", temp);
+  }
   res.status(200).send(output);
+});
+
+
+app.post("/upload", upload.single("file"), async function (req, res, next) {
+  console.log(req.file);
+  if (!req.file.location) {
+    console.log("not uploaded");
+    res.send("File not uploaded");
+    return;
+  }
+  res.send("Successfully uploaded " + req.file.location + " location!");
+});
+
+
+app.get("/download/:folder/:filename", async (req, res) => {
+  const { folder, filename } = req.params;
+  const key = `${folder}/${filename}`; // Construct S3 key including folder
+
+  try {
+    let file = await s3.getObject({ Bucket: BUCKET, Key: key }).promise();
+    res.attachment(filename); // Set the file name for download
+    res.send(file.Body);
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(404).send("File not found");
+  }
+});
+
+app.delete("/delete/:folder/:filename", async (req, res) => {
+  const { folder, filename } = req.params;
+  const key = `${folder}/${filename}`; // Construct S3 key including folder
+
+  try {
+    await s3.deleteObject({ Bucket: BUCKET, Key: key }).promise();;
+  } catch (err) {
+    console.error("Error:", err);
+  }
 });
 
 // ---------- User profile page -------------
@@ -482,20 +557,19 @@ app.get("/docDashboard", (req, res) => {
         output = output
           .replace("{%APPT-DATE%}", "No")
           .replace("{%PATIENT-NAME%}", "Any Patient");
+      } else {
+        console.log("Query results:", results);
+        const formattedDate = dateFormatter.formatDate(results[0].date);
+        // console.log(formattedDate);
+        output = output
+          .replace("{%APPT-DATE%}", formattedDate)
+          .replace("{%APP-ID%}", results[0].appointment_id)
+          .replace(
+            "{%PATIENT-NAME%}",
+            `${results[0].patient_first_name} ${results[0].patient_last_name}`
+          );
       }
-      else{
-      console.log("Query results:", results);
-      const formattedDate = dateFormatter.formatDate(results[0].date);
-      // console.log(formattedDate);
-      output = output
-        .replace("{%APPT-DATE%}", formattedDate)
-        .replace("{%APP-ID%}", results[0].appointment_id)
-      .replace(
-        "{%PATIENT-NAME%}",
-        `${results[0].patient_first_name} ${results[0].patient_last_name}`
-      );
     }
-  }
   );
   queryFunctions.getAllDoctorUpcomingAppointments(
     activeDocId,
@@ -508,24 +582,26 @@ app.get("/docDashboard", (req, res) => {
       output = output.replace("{%HISTORY%}", temp);
       res.status(200).send(output);
     }
-    );
+  );
 });
 
 app.post("/cancelAppointment", (req, res) => {
   // console.log("Request received for canceling appointment");
   // console.log(req.body);
-  queryFunctions.deleteAppointment(req.body.appointment_id, (error, results) => {
-    if (error) {
-      console.error("Error canceling:", error);
-      return;
+  queryFunctions.deleteAppointment(
+    req.body.appointment_id,
+    (error, results) => {
+      if (error) {
+        console.error("Error canceling:", error);
+        return;
+      }
+      res.status(200).send("Appointment canceled");
     }
-    res.status(200).send("Appointment canceled");
-  });
+  );
 });
 
-
 // ------------------ Server ------------------
-const PORT = process.env.PORT || 443;
+const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
   console.log(`Listening to requests on port ${PORT}...`);
 });
