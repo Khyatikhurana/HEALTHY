@@ -73,7 +73,8 @@ function fillFiles(data) {
   let final = "";
   for (const ele of data) {
     const name = ele.split("/")[1];
-    const modifiedOption = `<tr>
+    const modifiedOption = `
+    <tr>
     <td>${name}</td>
     <td>
       <!-- Download  -->
@@ -87,7 +88,8 @@ function fillFiles(data) {
       <i class="fa-solid fa-trash"></i>
     </a>
     </td>
-    </tr>`;
+    </tr>
+    `;
     // Append the modified option to the final string
     final += modifiedOption;
   }
