@@ -32,7 +32,7 @@ h4 {
 
 /* Layout for admin dashboard skeleton */
 .wrapper{
-    align-items: stretch;
+    align-items:flex-start;
     display: flex;
     width:100%;
 
@@ -300,11 +300,17 @@ section .details span{
 .uploaded-area i.fa-check{
   font-size: 16px;
 }
+
 .table{
-  width:50%;
-  border-spacing: 0;
+  width:auto;
+  min-width: 150px;
+  margin-left:auto;
+  margin-right: auto;
+  border-collapse:collapse;
 }
 
 .table td{
-  padding: 5px;
+  padding: 10px;
+  margin:0;
+  border:none;
 }

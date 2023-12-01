@@ -8,6 +8,7 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="./uploadFile.css">
     <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
 </head>
 
@@ -28,10 +29,23 @@
       </div>
 
     </div>
-    <table class="table table-borderless" style="width: 50%; margin-right: auto; margin-left: auto;">
+    <table class="table">
     
       <tbody>
-        {%RECORDS%}
+        <tr>
+          <td>FileName@regNumber</td>
+          <td>
+            <a href="#" class="download-file">
+            <i class="fa-solid fa-download"></i>
+          </a>
+          </td>
+          <td>
+            <a href="#" class="delete-file">
+            <i class="fa-solid fa-trash"></i>
+          </a>
+          </td>
+        </tr>
+        
       </tbody>
     </table>
 
