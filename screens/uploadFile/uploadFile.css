@@ -300,3 +300,11 @@ section .details span{
 .uploaded-area i.fa-check{
   font-size: 16px;
 }
+.table{
+  width:50%;
+  border-spacing: 0;
+}
+
+.table td{
+  padding: 5px;
+}

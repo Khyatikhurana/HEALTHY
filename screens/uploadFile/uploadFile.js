@@ -13,31 +13,46 @@ fileInput.onchange = ({ target }) => {
   // Check if a file is selected
   if (file) {
     // Check file format (allow only PDF)
-    if (file.type === "application/pdf") {
-      // Check file size (limit to 5 MB)
-      if (file.size <= 5 * 1024 * 1024) {
-        let fileName = file.name;
-
-        // Truncate long file names
-        if (fileName.length >= 12) {
-          let splitName = fileName.split('.');
-          fileName = splitName[0].substring(0, 13) + "... ." + splitName[1];
-        }
-
-        // Call the uploadFile function
-        uploadFile(fileName);
-      } else {
-        alert("File size exceeds the limit (5 MB).");
-      }
+    // Check file size (limit to 5 MB)
+    if (file.size <= 5 * 1024 * 1024) {
+      // Call the uploadFile function
+      uploadFile(file);
     } else {
-      alert("Only PDF files are allowed.");
+      alert("File size exceeds the limit (5 MB).");
     }
   }
 };
 
-function uploadFile(name) {
+function uploadFile(file) {
+  //   const formData = new FormData();
+  //   formData.append('file', file);
+
+  //   fetch("/upload", { // Assuming the server endpoint is '/upload'
+  //     method: "POST",
+  //     body: formData,
+  //   })
+  //     .then((response) => {
+  //       if (response.ok) {
+  //         console.log("Response is ok");
+  //         return response.json();
+  //       }
+  //       throw new Error("Network response was not ok.");
+  //     })
+  //     .then((data) => {
+  //       // Process the response data as needed
+  //       console.log("Signed Up successfully:", data);
+  //       window.history.replaceState(null, "", "/dashboard");
+  //       window.location.href = "/dashboard";
+  //       // Show success message or perform other actions based on the response
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //       // Handle errors or show error messages to the user
+  //     });
+  // }
+
   let xhr = new XMLHttpRequest();
-  xhr.open("POST", "php/upload.php");
+  xhr.open("POST", "/upload");
   xhr.upload.addEventListener("progress", ({ loaded, total }) => {
     let fileLoaded = Math.floor((loaded / total) * 100);
     let fileTotal = Math.floor(total / 1000);
@@ -45,6 +60,7 @@ function uploadFile(name) {
     fileTotal < 1024
       ? (fileSize = fileTotal + " KB")
       : (fileSize = (loaded / (1024 * 1024)).toFixed(2) + " MB");
+      var name = file.name;
     let progressHTML = `<li class="row">
                           <i class="fas fa-file-alt"></i>
                           <div class="content">
@@ -75,6 +91,7 @@ function uploadFile(name) {
       uploadedArea.insertAdjacentHTML("afterbegin", uploadedHTML);
     }
   });
-  let data = new FormData(form);
+  let data = new FormData();
+  data.append("file", file);
   xhr.send(data);
 }

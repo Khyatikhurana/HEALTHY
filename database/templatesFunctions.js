@@ -68,6 +68,33 @@ function fillDoctorTable(data) {
   return final;
 }
 
+function fillFiles(data) {
+  // TODO: add delete functionality
+  let final = "";
+  for (const ele of data) {
+    const name = ele.split("/")[1];
+    const modifiedOption = `<tr>
+    <td>${name}</td>
+    <td>
+      <!-- Download  -->
+      <a href="/download/${ele}" class="download-file">
+      <i class="fa-solid fa-download"></i>
+    </a>
+    </td>
+    <td>
+      <!-- Delete -->
+      <a class="delete-file"> 
+      <i class="fa-solid fa-trash"></i>
+    </a>
+    </td>
+    </tr>`;
+    // Append the modified option to the final string
+    final += modifiedOption;
+  }
+
+  return final;
+}
+
 function fillAppointment(data) {
   let final = "";
 
@@ -127,6 +154,7 @@ var j = 1;
 }
 
 module.exports = {
+  fillFiles,
   fillTable,
   fillDoctors,
   fillAppointment,
