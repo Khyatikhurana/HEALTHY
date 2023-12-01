@@ -25,7 +25,6 @@ const s3 = new aws.S3();
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    acl: "public-read",
     bucket: BUCKET,
     key: function (req, file, cb) {
       const activeUserId = req.session.activeUserId; // Assuming activeuserid is stored in session
@@ -461,12 +460,13 @@ app.get("/download/:folder/:filename", async (req, res) => {
   }
 });
 
-app.delete("/delete/:folder/:filename", async (req, res) => {
+app.get("/delete/:folder/:filename", async (req, res) => {
   const { folder, filename } = req.params;
   const key = `${folder}/${filename}`; // Construct S3 key including folder
 
   try {
-    await s3.deleteObject({ Bucket: BUCKET, Key: key }).promise();;
+    await s3.deleteObject({ Bucket: BUCKET, Key: key }).promise();
+    res.sendStatus(204);
   } catch (err) {
     console.error("Error:", err);
   }

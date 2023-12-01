@@ -84,7 +84,7 @@ function fillFiles(data) {
     </td>
     <td>
       <!-- Delete -->
-      <a class="delete-file"> 
+      <a href="/delete/${ele}" id=${ele}> 
       <i class="fa-solid fa-trash"></i>
     </a>
     </td>
