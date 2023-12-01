@@ -133,7 +133,7 @@ var j = 1;
     const modifiedOption = `
     <div class="Dcards">
                     <div>
-                        <img src = "./images/doc${j}.jpeg" style="background-size: cover;
+                        <img src = "https://projectimages19.s3.amazonaws.com/doc${j}.jpeg" style="background-size: cover;
                         background-repeat: no-repeat;
                         background-position: center;
                         border-radius: 50%;
