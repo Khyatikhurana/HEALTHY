@@ -121,7 +121,7 @@ const authScreen = `${authentication}\n<script>${authenticationJS}</script>`;
 
 // user profile screen
 const userProfile = fs.readFileSync(
-  path.join(__dirname, "screens", "UserProfile", "userprofile.html"),
+  path.join(__dirname,"userprofile.html"),
   "utf-8"
 );
 const userProfileCSS = fs.readFileSync(
